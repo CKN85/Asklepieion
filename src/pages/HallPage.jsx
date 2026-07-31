@@ -1,68 +1,168 @@
-import { useEffect } from "react";
-import { useParams, Link, Navigate } from "react-router-dom";
-import TabletList from "../components/TabletList.jsx";
-import Footer from "../components/Footer.jsx";
-import { HALLS_BY_ID } from "../data/halls.js";
+import React, { useEffect, useState, useMemo } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
+import { base44 } from '@/api/client';
+import SiteNav from '@/components/SiteNav';
+import SiteFooter from '@/components/SiteFooter';
 
-// Α Β Γ Δ Ε … for numbering chapters within a hall.
-const GREEK_NUMERALS = [
-  "Α", "Β", "Γ", "Δ", "Ε", "Ϛ", "Ζ", "Η",
-  "Θ", "Ι", "ΙΑ", "ΙΒ", "ΙΓ", "ΙΔ", "ΙΕ", "ΙϚ",
-];
+const GREEK_NUMERALS = ['Α','Β','Γ','Δ','Ε','Ϛ','Ζ','Η','Θ','Ι','ΙΑ','ΙΒ','ΙΓ','ΙΔ','ΙΕ','ΙϚ'];
 
 export default function HallPage() {
-  const { hallId } = useParams();
-  const hall = HALLS_BY_ID[hallId];
+  const { hallSlug } = useParams();
+  const [hall, setHall] = useState(null);
+  const [sections, setSections] = useState([]);
+  const [chapters, setChapters] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    if (hall) {
-      document.title =
-        hall.kind === "propylon"
-          ? `The Propylon — Asklepieion`
-          : `Hall of ${hall.name} — Asklepieion`;
-    }
+    const load = async () => {
+      setLoading(true);
+      window.scrollTo(0, 0);
+      try {
+        const halls = await base44.entities.Hall.filter({ slug: hallSlug });
+        const h = halls[0] || null;
+        setHall(h);
+        if (h) {
+          const [secs, chaps] = await Promise.all([
+            base44.entities.Section.filter({ hall_id: h.id }),
+            base44.entities.Chapter.filter({ hall_id: h.id, status: 'published' }),
+          ]);
+          setSections(secs.sort((a, b) => (a.order || 0) - (b.order || 0)));
+          setChapters(chaps);
+        }
+      } catch (err) {
+        console.error(err);
+        setHall(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, [hallSlug]);
+
+  useEffect(() => {
+    document.title = hall ? `Hall of ${hall.name} — Asklepieion` : 'Asklepieion';
   }, [hall]);
 
-  if (!hall) return <Navigate to="/" replace />;
+  const chaptersBySection = useMemo(() => {
+    const m = {};
+    chapters.forEach(c => {
+      const key = c.section_id || 'unfiled';
+      (m[key] = m[key] || []).push(c);
+    });
+    return m;
+  }, [chapters]);
 
-  const heading =
-    hall.kind === "propylon" ? "The Propylon" : `Hall of ${hall.name}`;
+  if (loading) return (
+    <div className="min-h-screen bg-[#0E0C09] flex items-center justify-center">
+      <div className="w-6 h-6 border border-[#3A3530] border-t-[#C9A84C] rounded-full animate-spin" />
+    </div>
+  );
+
+  if (!hall) return (
+    <div className="min-h-screen bg-[#0E0C09] flex flex-col items-center justify-center gap-4">
+      <span className="font-heading text-[#2A2620] text-5xl">⚕</span>
+      <p className="label-caps text-[#3A3530] tracking-widest">No such hall</p>
+      <Link to="/" className="label-caps text-[#C9A84C] text-[9px] tracking-[0.2em] mt-2">← The Sanctuary</Link>
+    </div>
+  );
+
+  const unfiled = chaptersBySection['unfiled'] || [];
 
   return (
-    <>
-      <main className="shell hall-page">
-        <Link className="back-link" to="/">← The Sanctuary</Link>
+    <div className="min-h-screen bg-[#0E0C09] text-[#E2DED0]">
+      <SiteNav />
 
-        <div className="hall-header">
-          <div className="hall-sigil" aria-hidden="true">{hall.mark}</div>
-          <h1>{heading}</h1>
-          <p className="greek">
-            {hall.greek}
-            {hall.kind === "propylon" ? " · Athens" : ""}
-          </p>
-          <p className="discipline">{hall.discipline}</p>
-          <div className="meander" aria-hidden="true" />
-          <p className="hall-intro">{hall.description}</p>
+      <div className="max-w-screen-xl mx-auto px-8 pt-28">
+        <Link to="/" className="flex items-center gap-2 label-caps text-[#3A3530] hover:text-[#7A7268] text-[9px] tracking-[0.2em] transition-colors w-fit">
+          <ArrowLeft size={10} /> The Sanctuary
+        </Link>
+      </div>
+
+      <header className="max-w-2xl mx-auto px-8 pt-14 pb-12 text-center">
+        <div className="w-16 h-16 mx-auto mb-7 border border-[#C9A84C]/40 rounded-full flex items-center justify-center">
+          <span className="font-heading text-[#C9A84C] text-2xl font-light">{hall.greek_letter}</span>
         </div>
+        <h1 className="font-heading font-light" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', letterSpacing: '0.08em' }}>
+          HALL OF {hall.name.toUpperCase()}
+        </h1>
+        <div className="label-caps text-[#3A3530] text-[9px] tracking-[0.3em] mt-5">
+          {hall.latin_name}
+        </div>
+      </header>
 
-        <div className="meander wide" aria-hidden="true" style={{ margin: "3.5rem 0 2.5rem" }} />
+      <div className="max-w-3xl mx-auto px-8 pb-24">
+        {sections.length === 0 && chapters.length === 0 ? (
+          <p className="label-caps text-[#2A2620] tracking-widest text-center py-16">
+            Nothing inscribed in this hall yet
+          </p>
+        ) : (
+          <>
+            {sections.map((section, i) => {
+              const inSection = chaptersBySection[section.id] || [];
+              return (
+                <div key={section.id} className="mb-12">
+                  <div className="flex items-baseline gap-4 mb-5">
+                    <span className="font-heading text-[#C9A84C] text-sm">{GREEK_NUMERALS[i] || i + 1}</span>
+                    <h2 className="font-heading text-xl font-light">{section.title}</h2>
+                    <div className="h-px bg-[#1A1815] flex-1" />
+                  </div>
 
-        <h2 className="section-head">Chapters</h2>
-        <ul className="chapters">
-          {hall.chapters.map((chapter, i) => (
-            <li key={chapter}>
-              <span className="num">{GREEK_NUMERALS[i] || i + 1}</span>
-              <span className="chapter-name">{chapter}</span>
-            </li>
-          ))}
-        </ul>
+                  {inSection.length === 0 ? (
+                    <p className="label-caps text-[#2A2620] text-[9px] tracking-widest pl-9">No chapters yet</p>
+                  ) : (
+                    <div className="flex flex-col pl-9">
+                      {inSection.map(ch => (
+                        <Link
+                          key={ch.id}
+                          to={`/chapter/${ch.id}`}
+                          className="flex items-center justify-between py-3 border-b border-[#1A1815] group"
+                        >
+                          <span
+                            style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '1rem', color: '#A89880' }}
+                            className="group-hover:text-[#E2DED0] transition-colors"
+                          >
+                            {ch.title}
+                          </span>
+                          <div className="flex items-center gap-4 shrink-0 ml-4">
+                            {ch.reading_time_minutes && (
+                              <span className="label-caps text-[#2A2620] text-[8px] hidden sm:block">
+                                {ch.reading_time_minutes} min
+                              </span>
+                            )}
+                            <span className="text-[#C9A84C] opacity-0 group-hover:opacity-60 transition-opacity">→</span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
 
-        <h2 className="section-head">Tablets</h2>
-        <TabletList hall={hall.id} />
-      </main>
+            {unfiled.length > 0 && (
+              <div className="mb-12">
+                <div className="flex items-baseline gap-4 mb-5">
+                  <h2 className="font-heading text-xl font-light text-[#7A7268]">Unfiled</h2>
+                  <div className="h-px bg-[#1A1815] flex-1" />
+                </div>
+                <div className="flex flex-col">
+                  {unfiled.map(ch => (
+                    <Link key={ch.id} to={`/chapter/${ch.id}`} className="flex items-center justify-between py-3 border-b border-[#1A1815] group">
+                      <span style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '1rem', color: '#A89880' }} className="group-hover:text-[#E2DED0] transition-colors">
+                        {ch.title}
+                      </span>
+                      <span className="text-[#C9A84C] opacity-0 group-hover:opacity-60 transition-opacity ml-4">→</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
 
-      <Footer />
-    </>
+      <SiteFooter />
+    </div>
   );
 }

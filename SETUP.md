@@ -1,102 +1,89 @@
-# Setting up the Asklepieion (React version)
+# Asklepieion — setup
 
-This version is built with React and needs a build step, unlike the plain-HTML
-version — GitHub will run that build for you automatically on every push, via
-the workflow file already included in `.github/workflows/deploy.yml`. You
-don't need Node.js installed on your own computer unless you want to preview
-changes locally before pushing them.
+A complete, self-contained project: public site, admin interface, and database
+schema. Content lives in Supabase (free); the site is hosted on GitHub Pages
+(free). Nothing else to pay for.
 
-## 1. Put this on GitHub
+---
 
-1. Create a free GitHub account if you don't have one: https://github.com/signup
-2. Create a new **public** repository, e.g. named `asklepieion`.
-3. Upload every file and folder in this project, keeping the structure intact
-   (`src/`, `public/`, `content/`, `.github/` all need to stay where they are).
+## 1. Supabase
 
-## 2. Point the site at your repo
+1. Sign up at https://supabase.com and create a project.
+2. Open **SQL Editor**, paste in the whole of `supabase/schema.sql`, press
+   **Run**. This creates the three tables, seeds the five halls, and sets the
+   security rules.
+3. **Authentication → Users → Add user → Create new user.** Use your email and
+   a strong password, and tick "Auto Confirm User". This is your only admin
+   account — don't create a second one.
+4. **Project Settings → API.** Copy the **Project URL** and the **anon public**
+   key into `src/api/config.js`.
 
-Edit `src/config.js`:
+Never copy the **service_role** key anywhere into this project. It bypasses
+every security rule. The anon key is safe and is meant to be public.
 
-```js
-export const REPO_OWNER = "YOUR-GITHUB-USERNAME";
-export const REPO_NAME = "asklepieion";
-```
+## 2. Push to GitHub
 
-Re-upload the file with your real username filled in.
+Copy every file here into your repo (including the hidden `.github` folder),
+commit, and push. In **Settings → Pages**, set **Source** to **GitHub
+Actions**. The workflow builds and deploys on every push.
 
-## 3. Turn on GitHub Pages (via Actions)
+If your repo isn't named `Asklepieion`, change `base` in `vite.config.js` to
+match — otherwise the page loads blank.
 
-1. In your repo, go to **Settings → Pages**.
-2. Under "Build and deployment", set **Source** to **GitHub Actions**
-   (not "Deploy from a branch" — that's for the old plain-HTML version).
-3. Push (or re-upload) anything to the `main` branch — this triggers the
-   workflow. Check the **Actions** tab to watch it build; it takes a minute
-   or two the first time.
-4. Once it succeeds, your live URL appears under Settings → Pages —
-   something like `https://YOUR-USERNAME.github.io/asklepieion/`.
+## 3. Write
 
-`vite.config.js` is already set to `base: '/Asklepieion/'` for the
-ckn85.github.io/Asklepieion/ address. If you later point a custom domain at
-the site, change that back to `base: '/'`.
+- Public site: `https://ckn85.github.io/Asklepieion/`
+- Admin: `https://ckn85.github.io/Asklepieion/#/admin`
 
-## 4. Custom domain (optional, same as before)
+Log in, add sections to a hall under **Halls & Sections**, then write chapters.
+Chapters stay invisible until you press **Publish**.
 
-Settings → Pages → Custom domain, plus the DNS records at your registrar.
-Nothing else changes — this works the same way it did for the plain-HTML
-version. No CNAME file needs adding to the project; GitHub Actions
-deployments read the domain from your Pages settings directly.
-
-## 5. Create a GitHub access token
-
-1. https://github.com/settings/tokens → create a **fine-grained token**
-   scoped to just this repository, with **Contents: read and write**.
-2. Copy it somewhere safe.
-
-## 6. Set up DecapBridge (the editor login)
-
-1. Sign up free at https://decapbridge.com
-2. Add a site: GitHub provider, your repo, the access token, and your admin
-   URL (`https://your-domain-or-username.github.io/.../admin/index.html`).
-3. Copy the generated `backend:` block into `public/admin/config.yml`,
-   replacing the placeholder one at the top, and push it.
-
-## 7. Log in and write
-
-Visit `.../admin/`, set a password on first login, and create Tablets from
-there. Saving commits straight to your repo. Since content is fetched live
-at runtime (not baked in at build time), a new Tablet appears on the site
-within a minute or two — no rebuild needed for content changes, only for
-actual code changes.
-
-## Previewing locally (optional)
-
-If you have Node.js installed:
+## Running locally (optional)
 
 ```
 npm install
 npm run dev
 ```
 
-Opens a local preview at `http://localhost:5173`.
+---
 
-## Notes
+## What's here
 
-- URLs for Tablets look like `yoursite.com/#/tablet/the-cardiac-cycle` — the
-  `#` is intentional (a "hash router"), and is what lets client-side page
-  navigation work on GitHub Pages without extra server configuration.
-- If a hall's list says "Couldn't load Tablets," check `src/config.js` first.
-- If the GitHub Actions build fails, the **Actions** tab shows exactly which
-  step failed and why — worth pasting that error into a chat with Claude if
-  you get stuck.
+```
+src/
+  api/client.js       the data + auth layer (Supabase behind a simple interface)
+  api/config.js       your project URL and public key
+  pages/Home          floor plan; each wing enters a hall, the tholos the Archive
+  pages/HallPage      one hall, its sections, and their published chapters
+  pages/ChapterPage   the reading view
+  pages/Archive       alphabetical index with search and hall filters
+  pages/Admin*        dashboard, halls/sections, chapter list, chapter editor
+  components/         nav, footer, reading progress, related-reading sidebar
+supabase/schema.sql   tables, security policies, seed halls
+```
 
+## How the permissions work
 
-## Structure of this version
+Enforced by Supabase on the server, not by the interface:
 
-- `src/data/halls.js` — the single source of truth for every hall: its Greek
-  name, marker letter, discipline, description, and chapter list. Edit a hall
-  here and the plan, the hall page, and the Tablet labels all update together.
-- `src/pages/HomePage.jsx` — masthead, floor plan, and the short creed. No hall
-  detail lives here any more.
-- `src/pages/HallPage.jsx` — one page per hall, at `/#/hall/trikka` and so on.
-- `src/components/FloorPlan.jsx` — the plan itself; `GEOMETRY` at the bottom
-  controls where each wing sits.
+- Anyone may read **published** chapters and the hall/section structure.
+- **Drafts are never sent to the public at all** — not hidden by the UI,
+  genuinely withheld.
+- Only a signed-in session may create, edit, or delete anything.
+
+`/admin` being a guessable address doesn't matter — it loads a login form and
+does nothing without your password.
+
+## Notes and caveats
+
+- **Chapter bodies are raw HTML**, rendered with `dangerouslySetInnerHTML`.
+  That's fine while you're the only author. Don't ever paste in HTML from a
+  source you don't trust.
+- **The Supabase free tier pauses after ~1 week of inactivity.** One click in
+  the dashboard restores it and nothing is lost, but visitors during a pause
+  see an error.
+- **No automatic backups on the free tier.** Export your chapters
+  periodically: Table Editor → `chapters` → Export CSV.
+- `SiteNav`, `SiteFooter`, `ReadingProgress`, and `RelatedReadingPanel` were
+  written fresh here — they were imported by your pages but weren't in what you
+  pasted, so these are new implementations in the same palette.

@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   The three custom classes used throughout the pages.
+   --------------------------------------------------------------------------- */
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    background: #0E0C09;
+    color: #E2DED0;
+    font-family: 'Source Serif 4', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  /* Small tracked-out uppercase labels. */
+  .label-caps {
+    font-family: 'Inter', system-ui, sans-serif;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* Display face for headings and Greek letters. */
+  .font-heading {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  /* Chapter prose, since chapter bodies are raw HTML. */
+  .prose-sanctum {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.06rem;
+    line-height: 1.85;
+    color: #C6BFB0;
+    max-width: 40em;
+  }
+  .prose-sanctum > * + * { margin-top: 1.35em; }
+  .prose-sanctum h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: 1.9rem;
+    color: #E2DED0;
+    margin-top: 2.6em;
+    margin-bottom: .6em;
+    letter-spacing: .01em;
+  }
+  .prose-sanctum h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 400;
+    font-size: 1.4rem;
+    color: #E2DED0;
+    margin-top: 2em;
+    margin-bottom: .5em;
+  }
+  .prose-sanctum a {
+    color: #C9A84C;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,168,76,.3);
+  }
+  .prose-sanctum a:hover { border-bottom-color: #C9A84C; }
+  .prose-sanctum strong { color: #E2DED0; font-weight: 600; }
+  .prose-sanctum em { font-style: italic; }
+  .prose-sanctum ul, .prose-sanctum ol { padding-left: 1.4em; }
+  .prose-sanctum ul { list-style: disc; }
+  .prose-sanctum ol { list-style: decimal; }
+  .prose-sanctum li { margin-top: .5em; }
+  .prose-sanctum li::marker { color: #7A7268; }
+  .prose-sanctum blockquote {
+    border-left: 2px solid #C9A84C;
+    padding-left: 1.3em;
+    font-style: italic;
+    color: #A89880;
+  }
+  .prose-sanctum code {
+    font-family: ui-monospace, 'IBM Plex Mono', monospace;
+    background: #1A1815;
+    padding: .1em .4em;
+    font-size: .87em;
+    color: #C9A84C;
+  }
+  .prose-sanctum pre {
+    background: #1A1815;
+    border: 1px solid #2A2620;
+    padding: 1.1em;
+    overflow-x: auto;
+  }
+  .prose-sanctum pre code { background: none; padding: 0; color: #C6BFB0; }
+  .prose-sanctum table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .95rem;
+  }
+  .prose-sanctum th, .prose-sanctum td {
+    border: 1px solid #2A2620;
+    padding: .6em .8em;
+    text-align: left;
+  }
+  .prose-sanctum th {
+    font-family: 'Inter', system-ui, sans-serif;
+    text-transform: uppercase;
+    font-size: .68rem;
+    letter-spacing: .12em;
+    color: #C9A84C;
+  }
+  .prose-sanctum hr { border: 0; border-top: 1px solid #1A1815; margin: 2.5em 0; }
+  .prose-sanctum img { max-width: 100%; height: auto; }
+  .prose-sanctum figcaption {
+    font-size: .85rem;
+    color: #7A7268;
+    font-style: italic;
+    margin-top: .6em;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Floor plan on the homepage
+   --------------------------------------------------------------------------- */
+
+.temenos       { fill: none; stroke: #2A2620; stroke-width: 1; }
+.temenos-inner { fill: none; stroke: #1A1815; stroke-width: 1; }
+.corridor      { stroke: #2A2620; stroke-width: 1; stroke-dasharray: 2 4; }
+
+.plan-wing { cursor: pointer; outline: none; }
+.plan-wing .plinth {
+  fill: #14120F;
+  stroke: #2A2620;
+  stroke-width: 1.2;
+  transition: fill .28s ease, stroke .28s ease;
+}
+.plan-wing.is-gate .plinth { stroke-dasharray: 5 3; }
+.plan-wing .mark {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px;
+  fill: #7A6438;
+  text-anchor: middle;
+  transition: fill .28s ease;
+}
+.plan-wing .name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px;
+  letter-spacing: .14em;
+  fill: #E2DED0;
+  text-anchor: middle;
+}
+.plan-wing .field {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 8.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  fill: #7A7268;
+  text-anchor: middle;
+  transition: fill .28s ease;
+}
+.plan-wing .enter {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 8px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  fill: #C9A84C;
+  text-anchor: middle;
+  opacity: 0;
+  transition: opacity .28s ease;
+}
+.plan-wing:hover .plinth,
+.plan-wing:focus-visible .plinth { fill: #1C1913; stroke: #C9A84C; }
+.plan-wing:hover .mark,
+.plan-wing:focus-visible .mark   { fill: #C9A84C; }
+.plan-wing:hover .field,
+.plan-wing:focus-visible .field  { fill: #A89880; }
+.plan-wing:hover .enter,
+.plan-wing:focus-visible .enter  { opacity: 1; }
+
+.tholos-outer {
+  fill: #14120F;
+  stroke: #7A6438;
+  stroke-width: 1.2;
+  transition: stroke .28s ease, fill .28s ease;
+}
+.tholos-ring  { fill: none; stroke: #2A2620; stroke-width: 1; }
+.tholos-label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 10px;
+  letter-spacing: .18em;
+  fill: #7A7268;
+  text-anchor: middle;
+}
+.tholos-sub {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 8px;
+  letter-spacing: .1em;
+  fill: #7A6438;
+  text-anchor: middle;
+}
+.plan-wing.tholos:hover .tholos-outer,
+.plan-wing.tholos:focus-visible .tholos-outer { stroke: #C9A84C; fill: #1C1913; }
+
+.plan-wing:focus-visible { outline: 1px solid #C9A84C; outline-offset: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
