@@ -1,0 +1,282 @@
+:root{
+  --basalt:#14161a;
+  --panel:#1c1f24;
+  --marble:#ece8de;
+  --ash:#93959c;
+  --verdigris:#5f9481;
+  --line:#33363d;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--basalt);
+  color:var(--marble);
+  font-family:'Literata', serif;
+  line-height:1.6;
+}
+a{color:inherit;}
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:.72rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--verdigris);
+}
+h1,h2,h3{
+  font-family:'Cinzel', serif;
+  font-weight:600;
+  letter-spacing:.02em;
+  color:var(--marble);
+}
+
+/* ---------- HERO ---------- */
+.hero{
+  max-width:1100px;
+  margin:0 auto;
+  padding:5rem 1.5rem 2rem;
+  text-align:center;
+}
+.hero .eyebrow{display:block; margin-bottom:1.4rem;}
+.hero h1{
+  font-size:clamp(2.6rem, 6vw, 4.6rem);
+  text-transform:uppercase;
+}
+.hero .tagline{
+  max-width:38em;
+  margin:1.3rem auto 0;
+  font-size:clamp(1.05rem, 2vw, 1.25rem);
+  font-style:italic;
+  color:var(--ash);
+}
+
+/* ---------- FLOOR PLAN ---------- */
+.floorplan-wrap{
+  max-width:800px;
+  margin:3rem auto 1rem;
+  padding:0 1rem;
+}
+.floorplan-wrap svg{width:100%; height:auto; display:block;}
+.temenos{fill:none; stroke:var(--line); stroke-width:1;}
+.corridor{fill:var(--line);}
+.tholos-ring{fill:none; stroke:var(--ash); stroke-width:1;}
+.tholos-outer{fill:var(--panel); stroke:var(--ash); stroke-width:1.5;}
+.tholos-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:.12em;
+  fill:var(--ash);
+  text-anchor:middle;
+}
+.wing rect{
+  fill:var(--panel);
+  stroke:var(--line);
+  stroke-width:1.5;
+  transition:fill .25s ease, stroke .25s ease;
+}
+.wing:hover rect, .wing:focus rect{
+  stroke:var(--verdigris);
+  fill:#233129;
+}
+.wing:focus{outline:none;}
+.wing .mark{
+  font-family:'Cinzel', serif;
+  font-size:13px;
+  fill:var(--verdigris);
+  text-anchor:middle;
+}
+.wing .name{
+  font-family:'Cinzel', serif;
+  font-size:15px;
+  letter-spacing:.05em;
+  fill:var(--marble);
+  text-anchor:middle;
+}
+.wing .field{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  fill:var(--ash);
+  text-anchor:middle;
+  transition:fill .25s ease;
+}
+.wing:hover .field, .wing:focus .field{fill:var(--verdigris);}
+.gate rect{stroke-dasharray:4 3;}
+
+/* ---------- INTRO / PROPYLON ---------- */
+.intro{
+  max-width:640px;
+  margin:2rem auto 5rem;
+  padding:0 1.5rem;
+  text-align:center;
+}
+.intro h2, .propylon-section h2{
+  font-size:1.5rem;
+  margin:.9rem 0 1.1rem;
+}
+.intro p, .propylon-section p{color:var(--ash); font-size:1.02rem;}
+.propylon-section{
+  max-width:640px;
+  margin:0 auto 5rem;
+  padding:3rem 1.5rem;
+  text-align:center;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.propylon-section .site{
+  color:var(--verdigris);
+  font-style:italic;
+  font-size:1rem;
+  margin:.3rem 0 1.3rem;
+}
+.propylon-section .topics{justify-content:center; margin-top:1.5rem;}
+
+/* ---------- HALLS ---------- */
+.halls{border-top:1px solid var(--line);}
+.hall{
+  max-width:1000px;
+  margin:0 auto;
+  padding:4.5rem 1.5rem;
+  border-bottom:1px solid var(--line);
+  display:grid;
+  grid-template-columns:1fr 1.4fr;
+  gap:3rem;
+  align-items:start;
+}
+.hall-head .mark{
+  font-family:'Cinzel', serif;
+  font-size:2.2rem;
+  color:var(--verdigris);
+  display:block;
+  margin-bottom:.5rem;
+}
+.hall-head h3{font-size:1.7rem; text-transform:uppercase;}
+.hall-head .site{
+  color:var(--ash);
+  font-style:italic;
+  font-size:1rem;
+  margin-top:.35rem;
+}
+.hall-body p{max-width:46em;}
+.topics{
+  list-style:none;
+  display:flex;
+  flex-wrap:wrap;
+  gap:.55rem;
+  margin-top:1.6rem;
+  padding:0;
+}
+.topics li{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:.74rem;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--ash);
+  border:1px solid var(--line);
+  padding:.4rem .75rem;
+}
+
+/* ---------- TABLET LISTS (per hall, populated by JS) ---------- */
+.tablet-list{
+  list-style:none;
+  margin-top:1.8rem;
+  display:flex;
+  flex-direction:column;
+  gap:.55rem;
+  padding:0;
+}
+.tablet-list .empty{
+  color:var(--ash);
+  font-size:.85rem;
+  font-style:italic;
+}
+.tablet-list li a{
+  display:block;
+  padding:.7rem .95rem;
+  border:1px solid var(--line);
+  color:var(--marble);
+  text-decoration:none;
+  font-size:.92rem;
+  transition:border-color .2s ease, background .2s ease;
+}
+.tablet-list li a:hover, .tablet-list li a:focus-visible{
+  border-color:var(--verdigris);
+  background:rgba(95,148,129,.08);
+}
+.tablet-list .summary{
+  display:block;
+  color:var(--ash);
+  font-size:.8rem;
+  margin-top:.25rem;
+}
+
+/* ---------- SINGLE TABLET PAGE ---------- */
+.tablet-page{
+  max-width:700px;
+  margin:0 auto;
+  padding:5rem 1.5rem 6rem;
+}
+.tablet-page .back-link{
+  display:inline-block;
+  margin-bottom:2.5rem;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:.75rem;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--verdigris);
+  text-decoration:none;
+}
+.tablet-page .back-link:hover{text-decoration:underline;}
+.tablet-page h1{
+  font-size:clamp(2rem, 5vw, 2.8rem);
+  margin:.7rem 0 .6rem;
+}
+.tablet-page .meta{
+  color:var(--ash);
+  font-family:'IBM Plex Mono', monospace;
+  font-size:.72rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:2.8rem;
+}
+.tablet-body{font-size:1.06rem;}
+.tablet-body p{margin-bottom:1.25rem;}
+.tablet-body h2{font-size:1.4rem; margin:2.2rem 0 1rem;}
+.tablet-body h3{font-size:1.15rem; margin:1.6rem 0 .75rem; text-transform:none;}
+.tablet-body ul, .tablet-body ol{margin:0 0 1.25rem 1.4rem; color:var(--marble);}
+.tablet-body blockquote{
+  border-left:2px solid var(--verdigris);
+  padding-left:1rem;
+  color:var(--ash);
+  font-style:italic;
+  margin:1.3rem 0;
+}
+.tablet-body code{
+  font-family:'IBM Plex Mono', monospace;
+  background:var(--panel);
+  padding:.1rem .4rem;
+  font-size:.85em;
+}
+.tablet-page .status{color:var(--ash); font-style:italic;}
+
+@media (max-width:760px){
+  .hall{grid-template-columns:1fr;}
+}
+
+/* ---------- FOOTER ---------- */
+footer{
+  text-align:center;
+  padding:3.5rem 1.5rem 4rem;
+  color:var(--ash);
+  font-size:.9rem;
+}
+footer .eyebrow{margin-bottom:.6rem;}
+
+a:focus-visible, .wing:focus-visible{
+  outline:2px solid var(--verdigris);
+  outline-offset:3px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important; scroll-behavior:auto !important;}
+}
