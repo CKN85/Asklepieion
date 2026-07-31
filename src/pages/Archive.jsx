@@ -2,13 +2,16 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { base44 } from '@/api/client';
+import useSession from '@/hooks/useSession';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
+import { DraftBadge } from '@/components/AdminBar';
 
 const HALL_LETTERS = { trikka: 'Α', epidaurus: 'Β', kos: 'Γ', pergamon: 'Δ', athens: 'Ε' };
 const HALL_DISCIPLINES = { trikka: 'Anatomy', epidaurus: 'Physiology', kos: 'Biochemistry', pergamon: 'Histopathology', athens: 'Ethics' };
 
 export default function Archive() {
+  const { isAdmin, checking } = useSession();
   const [query, setQuery] = useState('');
   const [chapters, setChapters] = useState([]);
   const [halls, setHalls] = useState([]);
@@ -17,23 +20,29 @@ export default function Archive() {
   const [activeHall, setActiveHall] = useState('all');
 
   useEffect(() => {
+    if (checking) return;
+
     const load = async () => {
       setLoading(true);
       try {
         const [chaps, hs, secs] = await Promise.all([
-          base44.entities.Chapter.filter({ status: 'published' }),
+          isAdmin
+            ? base44.entities.Chapter.list('-updated_date', 500)
+            : base44.entities.Chapter.filter({ status: 'published' }),
           base44.entities.Hall.list(),
           base44.entities.Section.list(),
         ]);
         setChapters(chaps);
         setHalls(hs.sort((a, b) => (a.order || 0) - (b.order || 0)));
         setSections(secs);
+      } catch (err) {
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
     load();
-  }, []);
+  }, [isAdmin, checking]);
 
   const sectionMap = useMemo(() => {
     const m = {}; sections.forEach(s => { m[s.id] = s; }); return m;
@@ -72,6 +81,7 @@ export default function Archive() {
   }, [filtered]);
 
   const alphabet = Object.keys(grouped).sort();
+  const draftCount = chapters.filter(c => c.status !== 'published').length;
 
   return (
     <div className="min-h-screen bg-[#0E0C09] text-[#E2DED0]">
@@ -95,10 +105,16 @@ export default function Archive() {
               style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '0.9rem' }}
             />
           </div>
+
+          {isAdmin && draftCount > 0 && (
+            <p className="label-caps text-[#C9A84C] text-[8px] tracking-[0.2em] mt-4 opacity-70">
+              Including {draftCount} unpublished {draftCount === 1 ? 'draft' : 'drafts'}
+            </p>
+          )}
         </div>
       </header>
 
-      <div className="max-w-screen-xl mx-auto px-8 py-12">
+      <div className="max-w-screen-xl mx-auto px-8 py-12 pb-32">
         <div className="flex flex-wrap gap-2 mb-12">
           {[
             { slug: 'all', label: 'All Halls', letter: '·' },
@@ -148,7 +164,7 @@ export default function Archive() {
                       <Link
                         key={chapter.id}
                         to={`/chapter/${chapter.id}`}
-                        className="flex items-center justify-between py-3 border-b border-[#1A1815] group"
+                        className="flex items-center justify-between py-3 border-b border-[#1A1815] group gap-4"
                       >
                         <div className="flex items-center gap-4 min-w-0">
                           {h && (
@@ -157,8 +173,11 @@ export default function Archive() {
                             </span>
                           )}
                           <div className="min-w-0">
-                            <div className="font-heading text-lg font-light text-[#A89880] group-hover:text-[#E2DED0] transition-colors truncate">
-                              {chapter.title}
+                            <div className="flex items-center gap-2.5">
+                              <div className="font-heading text-lg font-light text-[#A89880] group-hover:text-[#E2DED0] transition-colors truncate">
+                                {chapter.title}
+                              </div>
+                              {isAdmin && <DraftBadge status={chapter.status} />}
                             </div>
                             {s && (
                               <div className="label-caps text-[#3A3530] text-[8px] mt-0.5">

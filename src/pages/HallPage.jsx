@@ -2,19 +2,26 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { base44 } from '@/api/client';
+import useSession from '@/hooks/useSession';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
+import { DraftBadge } from '@/components/AdminBar';
 
 const GREEK_NUMERALS = ['Α','Β','Γ','Δ','Ε','Ϛ','Ζ','Η','Θ','Ι','ΙΑ','ΙΒ','ΙΓ','ΙΔ','ΙΕ','ΙϚ'];
 
 export default function HallPage() {
   const { hallSlug } = useParams();
+  const { isAdmin, checking } = useSession();
   const [hall, setHall] = useState(null);
   const [sections, setSections] = useState([]);
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Wait until we know whether we're signed in — otherwise we'd fetch as a
+    // stranger first and miss the drafts.
+    if (checking) return;
+
     const load = async () => {
       setLoading(true);
       window.scrollTo(0, 0);
@@ -23,9 +30,12 @@ export default function HallPage() {
         const h = halls[0] || null;
         setHall(h);
         if (h) {
+          const chapterQuery = isAdmin
+            ? { hall_id: h.id }                        // drafts included
+            : { hall_id: h.id, status: 'published' };
           const [secs, chaps] = await Promise.all([
             base44.entities.Section.filter({ hall_id: h.id }),
-            base44.entities.Chapter.filter({ hall_id: h.id, status: 'published' }),
+            base44.entities.Chapter.filter(chapterQuery),
           ]);
           setSections(secs.sort((a, b) => (a.order || 0) - (b.order || 0)));
           setChapters(chaps);
@@ -38,7 +48,7 @@ export default function HallPage() {
       }
     };
     load();
-  }, [hallSlug]);
+  }, [hallSlug, isAdmin, checking]);
 
   useEffect(() => {
     document.title = hall ? `Hall of ${hall.name} — Asklepieion` : 'Asklepieion';
@@ -69,6 +79,31 @@ export default function HallPage() {
 
   const unfiled = chaptersBySection['unfiled'] || [];
 
+  const ChapterRow = ({ ch }) => (
+    <Link
+      to={`/chapter/${ch.id}`}
+      className="flex items-center justify-between py-3 border-b border-[#1A1815] group gap-4"
+    >
+      <span className="flex items-center gap-3 min-w-0">
+        <span
+          style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '1rem', color: '#A89880' }}
+          className="group-hover:text-[#E2DED0] transition-colors truncate"
+        >
+          {ch.title}
+        </span>
+        {isAdmin && <DraftBadge status={ch.status} />}
+      </span>
+      <span className="flex items-center gap-4 shrink-0">
+        {ch.reading_time_minutes && (
+          <span className="label-caps text-[#2A2620] text-[8px] hidden sm:block">
+            {ch.reading_time_minutes} min
+          </span>
+        )}
+        <span className="text-[#C9A84C] opacity-0 group-hover:opacity-60 transition-opacity">→</span>
+      </span>
+    </Link>
+  );
+
   return (
     <div className="min-h-screen bg-[#0E0C09] text-[#E2DED0]">
       <SiteNav />
@@ -91,7 +126,7 @@ export default function HallPage() {
         </div>
       </header>
 
-      <div className="max-w-3xl mx-auto px-8 pb-24">
+      <div className="max-w-3xl mx-auto px-8 pb-32">
         {sections.length === 0 && chapters.length === 0 ? (
           <p className="label-caps text-[#2A2620] tracking-widest text-center py-16">
             Nothing inscribed in this hall yet
@@ -112,28 +147,7 @@ export default function HallPage() {
                     <p className="label-caps text-[#2A2620] text-[9px] tracking-widest pl-9">No chapters yet</p>
                   ) : (
                     <div className="flex flex-col pl-9">
-                      {inSection.map(ch => (
-                        <Link
-                          key={ch.id}
-                          to={`/chapter/${ch.id}`}
-                          className="flex items-center justify-between py-3 border-b border-[#1A1815] group"
-                        >
-                          <span
-                            style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '1rem', color: '#A89880' }}
-                            className="group-hover:text-[#E2DED0] transition-colors"
-                          >
-                            {ch.title}
-                          </span>
-                          <div className="flex items-center gap-4 shrink-0 ml-4">
-                            {ch.reading_time_minutes && (
-                              <span className="label-caps text-[#2A2620] text-[8px] hidden sm:block">
-                                {ch.reading_time_minutes} min
-                              </span>
-                            )}
-                            <span className="text-[#C9A84C] opacity-0 group-hover:opacity-60 transition-opacity">→</span>
-                          </div>
-                        </Link>
-                      ))}
+                      {inSection.map(ch => <ChapterRow key={ch.id} ch={ch} />)}
                     </div>
                   )}
                 </div>
@@ -147,14 +161,7 @@ export default function HallPage() {
                   <div className="h-px bg-[#1A1815] flex-1" />
                 </div>
                 <div className="flex flex-col">
-                  {unfiled.map(ch => (
-                    <Link key={ch.id} to={`/chapter/${ch.id}`} className="flex items-center justify-between py-3 border-b border-[#1A1815] group">
-                      <span style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '1rem', color: '#A89880' }} className="group-hover:text-[#E2DED0] transition-colors">
-                        {ch.title}
-                      </span>
-                      <span className="text-[#C9A84C] opacity-0 group-hover:opacity-60 transition-opacity ml-4">→</span>
-                    </Link>
-                  ))}
+                  {unfiled.map(ch => <ChapterRow key={ch.id} ch={ch} />)}
                 </div>
               </div>
             )}

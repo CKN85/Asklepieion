@@ -6,6 +6,7 @@ import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
 import ReadingProgress from '@/components/ReadingProgress';
 import RelatedReadingPanel from '@/components/RelatedReadingPanel';
+import { DraftNotice } from '@/components/AdminBar';
 
 const HALL_META = {
   trikka:    { letter: 'Α', name: 'Trikka',    discipline: 'Anatomy' },
@@ -120,8 +121,10 @@ export default function ChapterPage() {
         </div>
       </header>
 
-      <div className="max-w-screen-xl mx-auto px-8 py-16 flex gap-12">
+      <div className="max-w-screen-xl mx-auto px-8 py-16 pb-32 flex gap-12">
         <article className="flex-1 min-w-0">
+          {/* Only ever rendered for you — the public never receives a draft. */}
+          <DraftNotice status={chapter.status} />
           <div
             className="prose-sanctum"
             dangerouslySetInnerHTML={{
