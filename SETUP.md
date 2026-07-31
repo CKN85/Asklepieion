@@ -35,9 +35,9 @@ Re-upload the file with your real username filled in.
 4. Once it succeeds, your live URL appears under Settings → Pages —
    something like `https://YOUR-USERNAME.github.io/asklepieion/`.
 
-If you're staying on that `.github.io` address (no custom domain yet),
-also change `base: '/'` to `base: '/asklepieion/'` in `vite.config.js`
-before pushing, or the page will load blank.
+`vite.config.js` is already set to `base: '/Asklepieion/'` for the
+ckn85.github.io/Asklepieion/ address. If you later point a custom domain at
+the site, change that back to `base: '/'`.
 
 ## 4. Custom domain (optional, same as before)
 
@@ -88,3 +88,15 @@ Opens a local preview at `http://localhost:5173`.
 - If the GitHub Actions build fails, the **Actions** tab shows exactly which
   step failed and why — worth pasting that error into a chat with Claude if
   you get stuck.
+
+
+## Structure of this version
+
+- `src/data/halls.js` — the single source of truth for every hall: its Greek
+  name, marker letter, discipline, description, and chapter list. Edit a hall
+  here and the plan, the hall page, and the Tablet labels all update together.
+- `src/pages/HomePage.jsx` — masthead, floor plan, and the short creed. No hall
+  detail lives here any more.
+- `src/pages/HallPage.jsx` — one page per hall, at `/#/hall/trikka` and so on.
+- `src/components/FloorPlan.jsx` — the plan itself; `GEOMETRY` at the bottom
+  controls where each wing sits.

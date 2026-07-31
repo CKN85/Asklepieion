@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { listTablets } from "../lib/github.js";
 
-// Cache the single listTablets() call across every Hall on the page,
-// instead of each hall re-fetching the whole folder separately.
+// One fetch of the folder, shared by whatever asks for it.
 let cachedPromise = null;
 function getAllTablets() {
   if (!cachedPromise) cachedPromise = listTablets();
@@ -15,6 +14,8 @@ export default function TabletList({ hall }) {
 
   useEffect(() => {
     let cancelled = false;
+    setState({ status: "loading", tablets: [] });
+
     getAllTablets()
       .then((all) => {
         if (cancelled) return;
@@ -27,39 +28,35 @@ export default function TabletList({ hall }) {
         console.error(err);
         if (!cancelled) setState({ status: "error", tablets: [] });
       });
-    return () => {
-      cancelled = true;
-    };
+
+    return () => { cancelled = true; };
   }, [hall]);
 
   if (state.status === "loading") {
-    return (
-      <ul className="tablet-list">
-        <li className="empty">Loading Tablets…</li>
-      </ul>
-    );
+    return <ul className="tablet-list"><li className="empty">Loading Tablets…</li></ul>;
   }
   if (state.status === "error") {
     return (
       <ul className="tablet-list">
-        <li className="empty">Couldn't load Tablets — check src/config.js.</li>
+        <li className="empty">Couldn't reach the Tablets — check src/config.js.</li>
       </ul>
     );
   }
   if (state.tablets.length === 0) {
     return (
       <ul className="tablet-list">
-        <li className="empty">No Tablets in this hall yet.</li>
+        <li className="empty">No Tablets inscribed in this hall yet.</li>
       </ul>
     );
   }
+
   return (
     <ul className="tablet-list">
       {state.tablets.map((t) => (
         <li key={t.slug}>
           <Link to={`/tablet/${t.slug}`}>
-            {t.title || t.slug}
-            {t.summary && <span className="summary">{t.summary}</span>}
+            <span className="t-title">{t.title || t.slug}</span>
+            {t.summary && <span className="t-summary">{t.summary}</span>}
           </Link>
         </li>
       ))}

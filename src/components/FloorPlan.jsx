@@ -1,16 +1,29 @@
-function scrollToId(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth" });
+import { useNavigate } from "react-router-dom";
+
+/* A row of columns along the edge of a wing that faces the courtyard. */
+function Colonnade({ from, to, axis, at, count = 5 }) {
+  const step = (to - from) / (count - 1);
+  return (
+    <>
+      {Array.from({ length: count }, (_, i) => {
+        const pos = from + step * i;
+        const cx = axis === "x" ? pos : at;
+        const cy = axis === "x" ? at : pos;
+        return <circle key={i} className="column" cx={cx} cy={cy} r="2.4" />;
+      })}
+    </>
+  );
 }
 
-function Wing({
-  x, y, width, height,
-  markX, markY, mark,
-  nameX, nameY, name,
-  fieldX, fieldY, field,
-  label, targetId, gate,
-}) {
-  const activate = () => scrollToId(targetId);
+function Wing({ hall, geometry, onEnter }) {
+  const { x, y, w, h, colonnade } = geometry;
+  const cx = x + w / 2;
+  const isGate = hall.kind === "propylon";
+  const label = isGate
+    ? `The Propylon — ${hall.discipline}`
+    : `Hall of ${hall.name} — ${hall.discipline}`;
+
+  const activate = () => onEnter(hall.id);
   const onKeyDown = (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -18,75 +31,92 @@ function Wing({
     }
   };
 
+  // Gate is shallower, so its type sits tighter than a full wing's.
+  const rows = isGate
+    ? { mark: y + 17, name: y + 35, field: y + 49, enter: null }
+    : { mark: y + 27, name: y + 57, field: y + 77, enter: y + h - 15 };
+
   return (
     <g
-      className={gate ? "wing gate" : "wing"}
+      className={isGate ? "wing gate" : "wing"}
       role="link"
       tabIndex={0}
       aria-label={label}
       onClick={activate}
       onKeyDown={onKeyDown}
-      style={{ cursor: "pointer" }}
     >
       <title>{label}</title>
-      <rect x={x} y={y} width={width} height={height} />
-      <text className="mark" x={markX} y={markY}>{mark}</text>
-      <text className="name" x={nameX} y={nameY}>{name}</text>
-      <text className="field" x={fieldX} y={fieldY}>{field}</text>
+      <rect className="plinth" x={x} y={y} width={w} height={h} />
+      {colonnade && <Colonnade {...colonnade} />}
+      <text className="mark" x={cx} y={rows.mark}>{hall.mark}</text>
+      <text className="name" x={cx} y={rows.name}>{hall.name.toUpperCase()}</text>
+      <text className="field" x={cx} y={rows.field}>{hall.discipline}</text>
+      {rows.enter && (
+        <text className="enter" x={cx} y={rows.enter}>Enter →</text>
+      )}
     </g>
   );
 }
 
-export default function FloorPlan() {
+/* Where each hall sits in the sanctuary. Keyed by hall id. */
+const GEOMETRY = {
+  trikka: {
+    x: 320, y: 55, w: 160, h: 120,
+    colonnade: { from: 340, to: 460, axis: "x", at: 175 },
+  },
+  pergamon: {
+    x: 585, y: 240, w: 150, h: 120,
+    colonnade: { from: 260, to: 340, axis: "y", at: 585, count: 4 },
+  },
+  epidaurus: {
+    x: 320, y: 410, w: 160, h: 115,
+    colonnade: { from: 340, to: 460, axis: "x", at: 410 },
+  },
+  kos: {
+    x: 65, y: 240, w: 150, h: 120,
+    colonnade: { from: 260, to: 340, axis: "y", at: 215, count: 4 },
+  },
+  ethics: { x: 320, y: 545, w: 160, h: 56 },
+};
+
+export default function FloorPlan({ halls }) {
+  const navigate = useNavigate();
+  const enter = (id) => navigate(`/hall/${id}`);
+
   return (
     <div className="floorplan-wrap">
       <svg
-        viewBox="0 0 800 660"
-        role="img"
-        aria-label="Floor plan of the Asklepieion, showing four wings around a central archive, with an entrance gate at the boundary wall"
+        viewBox="0 0 800 640"
+        role="group"
+        aria-label="Plan of the Asklepieion — select a hall to enter it"
       >
-        <rect className="temenos" x="20" y="20" width="760" height="560" />
+        {/* sanctuary walls */}
+        <rect className="temenos" x="30" y="30" width="740" height="540" />
+        <rect className="temenos-inner" x="44" y="44" width="712" height="512" />
 
-        <rect className="corridor" x="390" y="170" width="20" height="50" />
-        <rect className="corridor" x="390" y="340" width="20" height="50" />
-        <rect className="corridor" x="460" y="270" width="130" height="20" />
-        <rect className="corridor" x="210" y="270" width="130" height="20" />
+        {/* sacred ways from each wing to the tholos */}
+        <line className="corridor" x1="400" y1="175" x2="400" y2="242" />
+        <line className="corridor" x1="400" y1="358" x2="400" y2="410" />
+        <line className="corridor" x1="215" y1="300" x2="342" y2="300" />
+        <line className="corridor" x1="458" y1="300" x2="585" y2="300" />
 
-        <circle className="tholos-outer" cx="400" cy="280" r="60" />
-        <circle className="tholos-ring" cx="400" cy="280" r="42" />
-        <circle className="tholos-ring" cx="400" cy="280" r="24" />
-        <text className="tholos-label" x="400" y="277">ARCHIVE</text>
-        <text className="tholos-label" x="400" y="292">index &amp; search</text>
+        {/* the tholos — the Archive at the centre */}
+        <circle className="tholos-outer" cx="400" cy="300" r="58" />
+        <circle className="tholos-ring" cx="400" cy="300" r="42" />
+        <circle className="tholos-ring" cx="400" cy="300" r="26" />
+        <text className="tholos-label" x="400" y="298">ARCHIVE</text>
+        <text className="tholos-sub" x="400" y="313">INDEX &amp; SEARCH</text>
 
-        <Wing x={330} y={40} width={140} height={130}
-          markX={400} markY={65} mark="Α"
-          nameX={400} nameY={100} name="TRIKKA"
-          fieldX={400} fieldY={122} field="Anatomy"
-          label="Hall of Trikka — Anatomy" targetId="hall-trikka" />
-
-        <Wing x={590} y={215} width={140} height={130}
-          markX={660} markY={255} mark="Δ"
-          nameX={660} nameY={290} name="PERGAMON"
-          fieldX={660} fieldY={312} field="Histopathology"
-          label="Hall of Pergamon — Histopathology" targetId="hall-pergamon" />
-
-        <Wing x={330} y={390} width={140} height={130}
-          markX={400} markY={425} mark="Β"
-          nameX={400} nameY={460} name="EPIDAURUS"
-          fieldX={400} fieldY={482} field="Physiology"
-          label="Hall of Epidaurus — Physiology" targetId="hall-epidaurus" />
-
-        <Wing x={70} y={215} width={140} height={130}
-          markX={140} markY={255} mark="Γ"
-          nameX={140} nameY={290} name="KOS"
-          fieldX={140} fieldY={312} field="Biochemistry"
-          label="Hall of Kos — Biochemistry" targetId="hall-kos" />
-
-        <Wing gate x={320} y={560} width={160} height={54}
-          markX={400} markY={578} mark="Ε"
-          nameX={400} nameY={596} name="ATHENS"
-          fieldX={400} fieldY={611} field="Ethics"
-          label="The Propylon — Ethics, Athens" targetId="ethics" />
+        {halls.map((hall) =>
+          GEOMETRY[hall.id] ? (
+            <Wing
+              key={hall.id}
+              hall={hall}
+              geometry={GEOMETRY[hall.id]}
+              onEnter={enter}
+            />
+          ) : null
+        )}
       </svg>
     </div>
   );

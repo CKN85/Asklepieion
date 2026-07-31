@@ -1,282 +1,446 @@
 :root{
-  --basalt:#14161a;
-  --panel:#1c1f24;
-  --marble:#ece8de;
-  --ash:#93959c;
-  --verdigris:#5f9481;
-  --line:#33363d;
+  --basalt:#0e1013;
+  --basalt-lift:#14171c;
+  --panel:#181b21;
+  --marble:#ece7dc;
+  --marble-dim:#c9c4ba;
+  --ash:#8b8e96;
+  --bronze:#b08d57;
+  --bronze-dim:#7d6540;
+  --line:#2a2e35;
+  --line-soft:#22252b;
+
+  --serif:'EB Garamond', Georgia, serif;
+  --display:'Cinzel', serif;
+  --mono:'IBM Plex Mono', monospace;
+
+  --measure:34em;
 }
+
 *{box-sizing:border-box; margin:0; padding:0;}
 html{scroll-behavior:smooth;}
+
 body{
   background:var(--basalt);
   color:var(--marble);
-  font-family:'Literata', serif;
-  line-height:1.6;
+  font-family:var(--serif);
+  font-size:1.08rem;
+  line-height:1.72;
+  -webkit-font-smoothing:antialiased;
 }
+
 a{color:inherit;}
-.eyebrow{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:.72rem;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  color:var(--verdigris);
-}
+
 h1,h2,h3{
-  font-family:'Cinzel', serif;
+  font-family:var(--display);
   font-weight:600;
-  letter-spacing:.02em;
+  letter-spacing:.04em;
+  line-height:1.2;
   color:var(--marble);
 }
 
-/* ---------- HERO ---------- */
-.hero{
-  max-width:1100px;
-  margin:0 auto;
-  padding:5rem 1.5rem 2rem;
-  text-align:center;
-}
-.hero .eyebrow{display:block; margin-bottom:1.4rem;}
-.hero h1{
-  font-size:clamp(2.6rem, 6vw, 4.6rem);
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.24em;
   text-transform:uppercase;
-}
-.hero .tagline{
-  max-width:38em;
-  margin:1.3rem auto 0;
-  font-size:clamp(1.05rem, 2vw, 1.25rem);
-  font-style:italic;
-  color:var(--ash);
+  color:var(--bronze);
 }
 
-/* ---------- FLOOR PLAN ---------- */
+/* ---------------- ornament: the meander (Greek key) ---------------- */
+.meander{
+  height:14px;
+  width:100%;
+  max-width:220px;
+  margin:2rem auto;
+  opacity:.55;
+  background-repeat:repeat-x;
+  background-size:auto 14px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cpath d='M0 13h27M3 13V3h18v7H10V6h7' fill='none' stroke='%23b08d57' stroke-width='1.4'/%3E%3C/svg%3E");
+}
+.meander.wide{max-width:100%;}
+
+/* ---------------- shell ---------------- */
+.shell{
+  max-width:1080px;
+  margin:0 auto;
+  padding:0 1.75rem;
+}
+
+/* ---------------- masthead ---------------- */
+.masthead{
+  text-align:center;
+  padding:6rem 1.75rem 1rem;
+}
+.masthead .eyebrow{display:block; margin-bottom:1.6rem;}
+.masthead h1{
+  font-size:clamp(2.8rem, 7vw, 5rem);
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  margin-left:.14em;
+}
+.masthead .greek{
+  display:block;
+  font-family:var(--serif);
+  font-size:1.05rem;
+  font-style:italic;
+  color:var(--bronze-dim);
+  letter-spacing:.08em;
+  margin-top:.9rem;
+}
+.masthead .tagline{
+  max-width:var(--measure);
+  margin:1.6rem auto 0;
+  font-size:1.16rem;
+  color:var(--marble-dim);
+}
+
+/* ---------------- floor plan ---------------- */
 .floorplan-wrap{
-  max-width:800px;
-  margin:3rem auto 1rem;
-  padding:0 1rem;
+  max-width:820px;
+  margin:2.5rem auto 0;
+  padding:0 .5rem;
 }
 .floorplan-wrap svg{width:100%; height:auto; display:block;}
+
 .temenos{fill:none; stroke:var(--line); stroke-width:1;}
-.corridor{fill:var(--line);}
-.tholos-ring{fill:none; stroke:var(--ash); stroke-width:1;}
-.tholos-outer{fill:var(--panel); stroke:var(--ash); stroke-width:1.5;}
+.temenos-inner{fill:none; stroke:var(--line-soft); stroke-width:1;}
+.colonnade{fill:var(--line);}
+.corridor{fill:none; stroke:var(--line); stroke-width:1; stroke-dasharray:2 4;}
+
+.tholos-outer{fill:var(--basalt-lift); stroke:var(--bronze-dim); stroke-width:1.2;}
+.tholos-ring{fill:none; stroke:var(--line); stroke-width:1;}
 .tholos-label{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:11px;
-  letter-spacing:.12em;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.18em;
   fill:var(--ash);
   text-anchor:middle;
 }
-.wing rect{
-  fill:var(--panel);
-  stroke:var(--line);
-  stroke-width:1.5;
-  transition:fill .25s ease, stroke .25s ease;
-}
-.wing:hover rect, .wing:focus rect{
-  stroke:var(--verdigris);
-  fill:#233129;
-}
-.wing:focus{outline:none;}
-.wing .mark{
-  font-family:'Cinzel', serif;
-  font-size:13px;
-  fill:var(--verdigris);
+.tholos-sub{
+  font-family:var(--mono);
+  font-size:8px;
+  letter-spacing:.1em;
+  fill:var(--bronze-dim);
   text-anchor:middle;
 }
+
+/* wings */
+.wing{cursor:pointer;}
+.wing:focus{outline:none;}
+.wing .plinth{
+  fill:var(--panel);
+  stroke:var(--line);
+  stroke-width:1.2;
+  transition:fill .28s ease, stroke .28s ease;
+}
+.wing .column{
+  fill:var(--line);
+  transition:fill .28s ease;
+}
+.wing .mark{
+  font-family:var(--display);
+  font-size:12px;
+  letter-spacing:.1em;
+  fill:var(--bronze-dim);
+  text-anchor:middle;
+  transition:fill .28s ease;
+}
 .wing .name{
-  font-family:'Cinzel', serif;
-  font-size:15px;
-  letter-spacing:.05em;
+  font-family:var(--display);
+  font-size:14.5px;
+  letter-spacing:.14em;
   fill:var(--marble);
   text-anchor:middle;
 }
 .wing .field{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:10px;
-  letter-spacing:.08em;
+  font-family:var(--mono);
+  font-size:8.5px;
+  letter-spacing:.16em;
   text-transform:uppercase;
   fill:var(--ash);
   text-anchor:middle;
-  transition:fill .25s ease;
+  transition:fill .28s ease;
 }
-.wing:hover .field, .wing:focus .field{fill:var(--verdigris);}
-.gate rect{stroke-dasharray:4 3;}
+.wing .enter{
+  font-family:var(--mono);
+  font-size:8px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  fill:var(--bronze);
+  text-anchor:middle;
+  opacity:0;
+  transition:opacity .28s ease;
+}
+.wing:hover .plinth,
+.wing:focus-visible .plinth{
+  fill:#1d2229;
+  stroke:var(--bronze);
+}
+.wing:hover .column,
+.wing:focus-visible .column{fill:var(--bronze-dim);}
+.wing:hover .mark,
+.wing:focus-visible .mark{fill:var(--bronze);}
+.wing:hover .field,
+.wing:focus-visible .field{fill:var(--marble-dim);}
+.wing:hover .enter,
+.wing:focus-visible .enter{opacity:1;}
 
-/* ---------- INTRO / PROPYLON ---------- */
-.intro{
-  max-width:640px;
-  margin:2rem auto 5rem;
-  padding:0 1.5rem;
-  text-align:center;
-}
-.intro h2, .propylon-section h2{
-  font-size:1.5rem;
-  margin:.9rem 0 1.1rem;
-}
-.intro p, .propylon-section p{color:var(--ash); font-size:1.02rem;}
-.propylon-section{
-  max-width:640px;
-  margin:0 auto 5rem;
-  padding:3rem 1.5rem;
-  text-align:center;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-}
-.propylon-section .site{
-  color:var(--verdigris);
-  font-style:italic;
-  font-size:1rem;
-  margin:.3rem 0 1.3rem;
-}
-.propylon-section .topics{justify-content:center; margin-top:1.5rem;}
+.wing.gate .plinth{stroke-dasharray:5 3;}
 
-/* ---------- HALLS ---------- */
-.halls{border-top:1px solid var(--line);}
-.hall{
-  max-width:1000px;
-  margin:0 auto;
-  padding:4.5rem 1.5rem;
-  border-bottom:1px solid var(--line);
-  display:grid;
-  grid-template-columns:1fr 1.4fr;
-  gap:3rem;
-  align-items:start;
-}
-.hall-head .mark{
-  font-family:'Cinzel', serif;
-  font-size:2.2rem;
-  color:var(--verdigris);
-  display:block;
-  margin-bottom:.5rem;
-}
-.hall-head h3{font-size:1.7rem; text-transform:uppercase;}
-.hall-head .site{
-  color:var(--ash);
-  font-style:italic;
-  font-size:1rem;
-  margin-top:.35rem;
-}
-.hall-body p{max-width:46em;}
-.topics{
-  list-style:none;
-  display:flex;
-  flex-wrap:wrap;
-  gap:.55rem;
-  margin-top:1.6rem;
-  padding:0;
-}
-.topics li{
-  font-family:'IBM Plex Mono', monospace;
-  font-size:.74rem;
-  letter-spacing:.04em;
+.plan-caption{
+  text-align:center;
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.18em;
   text-transform:uppercase;
   color:var(--ash);
-  border:1px solid var(--line);
-  padding:.4rem .75rem;
+  margin-top:1.5rem;
 }
 
-/* ---------- TABLET LISTS (per hall, populated by JS) ---------- */
+/* ---------------- creed (homepage prose) ---------------- */
+.creed{
+  max-width:var(--measure);
+  margin:5rem auto 6rem;
+  padding:0 1.75rem;
+  text-align:center;
+}
+.creed h2{
+  font-size:1.45rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  margin:1rem 0 1.4rem;
+}
+.creed p{color:var(--marble-dim);}
+
+/* ---------------- hall page ---------------- */
+.hall-page{padding:3rem 0 6rem;}
+
+.back-link{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--bronze);
+  text-decoration:none;
+  margin-bottom:3.5rem;
+}
+.back-link:hover{color:var(--marble);}
+
+.hall-header{
+  text-align:center;
+  padding-bottom:1rem;
+}
+.hall-sigil{
+  width:64px;
+  height:64px;
+  margin:0 auto 1.6rem;
+  border:1px solid var(--bronze-dim);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--display);
+  font-size:1.5rem;
+  color:var(--bronze);
+}
+.hall-header h1{
+  font-size:clamp(2rem, 5vw, 3.1rem);
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  margin-left:.12em;
+}
+.hall-header .greek{
+  font-style:italic;
+  color:var(--bronze-dim);
+  letter-spacing:.06em;
+  margin-top:.7rem;
+}
+.hall-header .discipline{
+  font-family:var(--mono);
+  font-size:.72rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--ash);
+  margin-top:1.1rem;
+}
+.hall-intro{
+  max-width:var(--measure);
+  margin:0 auto;
+  color:var(--marble-dim);
+  text-align:center;
+}
+
+.section-head{
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--bronze);
+  text-align:center;
+  margin-bottom:2rem;
+}
+
+/* chapters */
+.chapters{
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+  gap:1px;
+  background:var(--line-soft);
+  border:1px solid var(--line-soft);
+  margin:0 0 4.5rem;
+}
+.chapters li{
+  background:var(--basalt);
+  padding:1.35rem 1.5rem;
+  display:flex;
+  align-items:baseline;
+  gap:1rem;
+  transition:background .25s ease;
+}
+.chapters li:hover{background:var(--basalt-lift);}
+.chapters .num{
+  font-family:var(--mono);
+  font-size:.7rem;
+  letter-spacing:.1em;
+  color:var(--bronze-dim);
+  min-width:1.6em;
+}
+.chapters .chapter-name{
+  font-family:var(--display);
+  font-size:.98rem;
+  letter-spacing:.04em;
+  color:var(--marble);
+}
+
+/* ---------------- tablet lists ---------------- */
 .tablet-list{
   list-style:none;
-  margin-top:1.8rem;
-  display:flex;
-  flex-direction:column;
-  gap:.55rem;
   padding:0;
+  margin:0;
+  border-top:1px solid var(--line-soft);
 }
-.tablet-list .empty{
-  color:var(--ash);
-  font-size:.85rem;
-  font-style:italic;
-}
+.tablet-list li{border-bottom:1px solid var(--line-soft);}
 .tablet-list li a{
   display:block;
-  padding:.7rem .95rem;
-  border:1px solid var(--line);
-  color:var(--marble);
+  padding:1.5rem .25rem;
   text-decoration:none;
-  font-size:.92rem;
-  transition:border-color .2s ease, background .2s ease;
+  transition:padding-left .25s ease, background .25s ease;
 }
-.tablet-list li a:hover, .tablet-list li a:focus-visible{
-  border-color:var(--verdigris);
-  background:rgba(95,148,129,.08);
+.tablet-list li a:hover,
+.tablet-list li a:focus-visible{
+  background:var(--basalt-lift);
+  padding-left:1.1rem;
 }
-.tablet-list .summary{
+.tablet-list .t-title{
+  font-family:var(--display);
+  font-size:1.12rem;
+  letter-spacing:.04em;
+  color:var(--marble);
+  display:block;
+}
+.tablet-list .t-summary{
   display:block;
   color:var(--ash);
-  font-size:.8rem;
-  margin-top:.25rem;
+  font-size:.95rem;
+  margin-top:.4rem;
 }
-
-/* ---------- SINGLE TABLET PAGE ---------- */
-.tablet-page{
-  max-width:700px;
-  margin:0 auto;
-  padding:5rem 1.5rem 6rem;
-}
-.tablet-page .back-link{
-  display:inline-block;
-  margin-bottom:2.5rem;
-  font-family:'IBM Plex Mono', monospace;
-  font-size:.75rem;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  color:var(--verdigris);
-  text-decoration:none;
-}
-.tablet-page .back-link:hover{text-decoration:underline;}
-.tablet-page h1{
-  font-size:clamp(2rem, 5vw, 2.8rem);
-  margin:.7rem 0 .6rem;
-}
-.tablet-page .meta{
-  color:var(--ash);
-  font-family:'IBM Plex Mono', monospace;
-  font-size:.72rem;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  margin-bottom:2.8rem;
-}
-.tablet-body{font-size:1.06rem;}
-.tablet-body p{margin-bottom:1.25rem;}
-.tablet-body h2{font-size:1.4rem; margin:2.2rem 0 1rem;}
-.tablet-body h3{font-size:1.15rem; margin:1.6rem 0 .75rem; text-transform:none;}
-.tablet-body ul, .tablet-body ol{margin:0 0 1.25rem 1.4rem; color:var(--marble);}
-.tablet-body blockquote{
-  border-left:2px solid var(--verdigris);
-  padding-left:1rem;
+.tablet-list .empty{
+  padding:2.5rem .25rem;
   color:var(--ash);
   font-style:italic;
-  margin:1.3rem 0;
+  border-bottom:1px solid var(--line-soft);
+}
+
+/* ---------------- single tablet ---------------- */
+.tablet-page{
+  max-width:38em;
+  margin:0 auto;
+  padding:3rem 1.75rem 7rem;
+}
+.tablet-page h1{
+  font-size:clamp(1.9rem, 4.5vw, 2.7rem);
+  margin:.9rem 0 .8rem;
+  letter-spacing:.03em;
+}
+.tablet-page .meta{
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ash);
+}
+.tablet-body{margin-top:3rem;}
+.tablet-body p{margin-bottom:1.4rem;}
+.tablet-body h2{
+  font-size:1.3rem;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  margin:2.8rem 0 1.1rem;
+}
+.tablet-body h3{
+  font-size:1.1rem;
+  letter-spacing:.03em;
+  margin:2rem 0 .8rem;
+}
+.tablet-body ul, .tablet-body ol{margin:0 0 1.4rem 1.5rem;}
+.tablet-body li{margin-bottom:.5rem;}
+.tablet-body blockquote{
+  border-left:2px solid var(--bronze-dim);
+  padding-left:1.3rem;
+  color:var(--marble-dim);
+  font-style:italic;
+  margin:1.8rem 0;
 }
 .tablet-body code{
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   background:var(--panel);
-  padding:.1rem .4rem;
-  font-size:.85em;
+  padding:.12rem .45rem;
+  font-size:.84em;
 }
-.tablet-page .status{color:var(--ash); font-style:italic;}
-
-@media (max-width:760px){
-  .hall{grid-template-columns:1fr;}
+.tablet-body table{
+  width:100%;
+  border-collapse:collapse;
+  margin:1.8rem 0;
+  font-size:.95rem;
 }
+.tablet-body th, .tablet-body td{
+  border:1px solid var(--line-soft);
+  padding:.6rem .8rem;
+  text-align:left;
+}
+.tablet-body th{
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--bronze);
+}
+.status{color:var(--ash); font-style:italic;}
 
-/* ---------- FOOTER ---------- */
+/* ---------------- footer ---------------- */
 footer{
   text-align:center;
-  padding:3.5rem 1.5rem 4rem;
+  padding:4rem 1.75rem 5rem;
+  border-top:1px solid var(--line-soft);
   color:var(--ash);
-  font-size:.9rem;
+  font-size:.95rem;
 }
-footer .eyebrow{margin-bottom:.6rem;}
+footer .eyebrow{display:block; margin-bottom:.8rem;}
 
+/* ---------------- focus & motion ---------------- */
 a:focus-visible, .wing:focus-visible{
-  outline:2px solid var(--verdigris);
-  outline-offset:3px;
+  outline:1px solid var(--bronze);
+  outline-offset:4px;
 }
-
 @media (prefers-reduced-motion: reduce){
   *{transition:none !important; scroll-behavior:auto !important;}
+}
+
+@media (max-width:640px){
+  body{font-size:1.02rem;}
+  .masthead{padding-top:4rem;}
+  .chapters{grid-template-columns:1fr;}
 }
