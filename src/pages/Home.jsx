@@ -85,7 +85,7 @@ export default function Home() {
 
       <header className="pt-36 pb-4 px-8 text-center">
         <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.3em] mb-5">The Sanctuary</div>
-        <h1 className="font-heading font-light" style={{ fontSize: 'clamp(2.75rem, 7vw, 5rem)', letterSpacing: '0.06em' }}>
+        <h1 className="font-heading font-light" style={{ fontSize: 'clamp(3.5rem, 10vw, 7.5rem)', letterSpacing: '0.06em' }}>
           ASKLEPIEION
         </h1>
         <p style={{ fontFamily: 'Source Serif 4, Georgia, serif', color: '#7A7268', fontStyle: 'italic' }} className="mt-3">

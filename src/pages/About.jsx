@@ -35,7 +35,7 @@ export default function About() {
       <main className="max-w-2xl mx-auto px-8 pt-32 pb-24">
         <div className="text-center mb-16">
           <div className="label-caps text-[9px] tracking-[0.3em]" style={{ color: '#3F8A66' }}>
-            About the Asklepieion
+            About Asklepieion
           </div>
 
           {state.status === 'loading' && (
