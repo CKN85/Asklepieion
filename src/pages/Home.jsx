@@ -213,6 +213,11 @@ export default function Home() {
         <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.3em] mb-4">For Asclepiads</div>
         <h2 className="font-heading text-2xl font-light mb-5" style={{ letterSpacing: '0.04em' }}>Who Is an Asclepiad</h2>
         <p style={{ fontFamily: 'Source Serif 4, Georgia, serif', color: '#A89880', lineHeight: '1.8' }}>
+          In ancient Greece, the Ἀσκληπιάδαι were physicians who traced their
+          craft back to Asclepius himself — sometimes by blood, more often by
+          oath and training, since the guild grew far past any one family.
+        </p>
+        <p className="mt-5" style={{ fontFamily: 'Source Serif 4, Georgia, serif', color: '#A89880', lineHeight: '1.8' }}>
           Hippocrates was one. So was every doctor who studied under him, and
           every doctor who has studied under them since. An Asclepiad was
           never a rank you were given. It was a lineage you joined by taking
