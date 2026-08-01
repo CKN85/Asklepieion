@@ -87,6 +87,9 @@ export default function AdminDashboard() {
           <Link to="/admin/tablets" className="flex items-center gap-2 label-caps text-[#7A7268] border border-[#2A2620] px-5 py-2.5 hover:border-[#3A3530] hover:text-[#E2DED0] transition-all duration-200 text-[9px] tracking-[0.2em]">
             <FileText size={11} /> All Tablets
           </Link>
+          <Link to="/admin/about" className="flex items-center gap-2 label-caps text-[#7A7268] border border-[#2A2620] px-5 py-2.5 hover:border-[#3A3530] hover:text-[#E2DED0] transition-all duration-200 text-[9px] tracking-[0.2em]">
+            <BookOpen size={11} /> Edit About Page
+          </Link>
         </div>
 
         <div>

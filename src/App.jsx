@@ -13,6 +13,7 @@ import AdminDashboard from '@/pages/AdminDashboard';
 import AdminHalls from '@/pages/AdminHalls';
 import AdminTablets from '@/pages/AdminTablets';
 import AdminTabletEditor from '@/pages/AdminTabletEditor';
+import AdminAboutEditor from '@/pages/AdminAboutEditor';
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/admin/tablets" element={<AdminTablets />} />
         <Route path="/admin/tablets/:tabletId/edit" element={<AdminTabletEditor />} />
         <Route path="/admin/tablets/new" element={<AdminTabletEditor />} />
+        <Route path="/admin/about" element={<AdminAboutEditor />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

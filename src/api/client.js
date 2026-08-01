@@ -107,6 +107,7 @@ export const client = {
     Hall: entity("halls"),
     Chapter: entity("chapters"),
     Tablet: entity("tablets"),
+    Page: entity("pages"),
   },
 
   auth: {
