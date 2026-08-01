@@ -9,7 +9,14 @@
 @layer base {
   html { scroll-behavior: smooth; }
   body {
-    background: #0E0C09;
+    background-color: #0E0C09;
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 159px,
+      rgba(63, 138, 102, 0.055) 159px,
+      rgba(63, 138, 102, 0.055) 160px
+    );
     color: #E2DED0;
     font-family: 'Source Serif 4', Georgia, serif;
     -webkit-font-smoothing: antialiased;

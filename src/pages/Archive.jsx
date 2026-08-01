@@ -84,7 +84,7 @@ export default function Archive() {
   const draftCount = tablets.filter(c => c.status !== 'published').length;
 
   return (
-    <div className="min-h-screen bg-[#0E0C09] text-[#E2DED0]">
+    <div className="min-h-screen text-[#E2DED0]">
       <SiteNav />
 
       <header className="pt-32 pb-16 px-8 border-b border-[#1A1815]">

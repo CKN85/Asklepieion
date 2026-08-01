@@ -48,7 +48,7 @@ export default function Home() {
   const enter = (slug) => navigate(`/hall/${slug}`);
 
   return (
-    <div className="min-h-screen bg-[#0E0C09] text-[#E2DED0]">
+    <div className="min-h-screen text-[#E2DED0]">
       <SiteNav />
 
       <header className="pt-36 pb-4 px-8 text-center">

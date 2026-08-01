@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { Search } from 'lucide-react';
 import AdminBar from '@/components/AdminBar';
 
-const LINKS = [
-  { to: '/', label: 'Sanctuary' },
-  { to: '/archive', label: 'Archive' },
+// Shared with SiteFooter — kept here rather than fetched, since these five
+// are foundational and this renders on every page.
+export const HALLS_NAV = [
+  { slug: 'trikka',    letter: 'Α', name: 'Trikka' },
+  { slug: 'epidaurus', letter: 'Β', name: 'Epidaurus' },
+  { slug: 'kos',       letter: 'Γ', name: 'Kos' },
+  { slug: 'pergamon',  letter: 'Δ', name: 'Pergamon' },
+  { slug: 'athens',    letter: 'Ε', name: 'Athens' },
 ];
 
 export default function SiteNav() {
@@ -24,32 +30,44 @@ export default function SiteNav() {
         className={`fixed top-0 left-0 right-0 z-40 px-8 transition-all duration-300 ${
           scrolled
             ? 'bg-[#0E0C09]/95 backdrop-blur border-b border-[#1A1815] h-14'
-            : 'bg-transparent h-20'
+            : 'bg-transparent h-16'
         }`}
       >
-        <div className="max-w-screen-xl mx-auto h-full flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <span className="font-heading text-[#3F8A66] text-lg">⚕</span>
+        <div className="max-w-screen-xl mx-auto h-full flex items-center justify-between gap-6">
+          <Link to="/" className="flex items-center gap-2.5 group shrink-0">
+            <span className="font-heading text-[#3F8A66] text-base">⚕</span>
             <span className="label-caps text-[#7A7268] group-hover:text-[#E2DED0] text-[9px] tracking-[0.25em] transition-colors">
               Asklepieion
             </span>
           </Link>
 
-          <div className="flex items-center gap-7">
-            {LINKS.map(link => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className={`label-caps text-[9px] tracking-[0.2em] transition-colors ${
-                  pathname === link.to
-                    ? 'text-[#3F8A66]'
-                    : 'text-[#3A3530] hover:text-[#7A7268]'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="hidden lg:flex items-center gap-6">
+            {HALLS_NAV.map(h => {
+              const active = pathname === `/hall/${h.slug}`;
+              return (
+                <Link
+                  key={h.slug}
+                  to={`/hall/${h.slug}`}
+                  className={`flex items-center gap-1.5 label-caps text-[9px] tracking-[0.15em] transition-colors ${
+                    active ? 'text-[#3F8A66]' : 'text-[#7A7268] hover:text-[#E2DED0]'
+                  }`}
+                >
+                  <span className="font-heading text-[11px]">{h.letter}</span>
+                  {h.name}
+                </Link>
+              );
+            })}
           </div>
+
+          <Link
+            to="/archive"
+            className={`flex items-center gap-1.5 label-caps text-[9px] tracking-[0.2em] transition-colors shrink-0 ${
+              pathname === '/archive' ? 'text-[#3F8A66]' : 'text-[#7A7268] hover:text-[#E2DED0]'
+            }`}
+          >
+            <Search size={11} />
+            Archive
+          </Link>
         </div>
       </nav>
 

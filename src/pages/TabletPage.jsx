@@ -74,7 +74,7 @@ export default function TabletPage() {
     (tablet.cross_references?.length > 0) || (tablet.related_reading?.length > 0);
 
   return (
-    <div className="min-h-screen bg-[#0E0C09] text-[#E2DED0]">
+    <div className="min-h-screen text-[#E2DED0]">
       <ReadingProgress />
       <SiteNav />
 

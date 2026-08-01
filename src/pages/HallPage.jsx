@@ -123,7 +123,7 @@ export default function HallPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0E0C09] text-[#E2DED0]">
+    <div className="min-h-screen text-[#E2DED0]">
       <SiteNav />
 
       <div className="max-w-screen-xl mx-auto px-8 pt-28">
