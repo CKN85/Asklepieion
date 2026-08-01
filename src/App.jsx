@@ -5,6 +5,7 @@ import Home from '@/pages/Home';
 import HallPage from '@/pages/HallPage';
 import TabletPage from '@/pages/TabletPage';
 import Archive from '@/pages/Archive';
+import About from '@/pages/About';
 
 import AdminRoute from '@/components/AdminRoute';
 import AdminLogin from '@/pages/AdminLogin';
@@ -21,6 +22,7 @@ export default function App() {
       <Route path="/hall/:hallSlug" element={<HallPage />} />
       <Route path="/tablet/:tabletId" element={<TabletPage />} />
       <Route path="/archive" element={<Archive />} />
+      <Route path="/about" element={<About />} />
 
       {/* Admin — login is open, everything under AdminRoute requires a session */}
       <Route path="/admin/login" element={<AdminLogin />} />

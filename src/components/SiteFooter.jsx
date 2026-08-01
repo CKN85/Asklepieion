@@ -50,6 +50,12 @@ export default function SiteFooter() {
         >
           <Search size={9} /> Archive
         </Link>
+        <Link
+          to="/about"
+          className="label-caps text-[#3A3530] hover:text-[#7A7268] text-[8px] tracking-[0.15em] transition-colors"
+        >
+          About
+        </Link>
       </div>
 
       <div className="text-center mt-10">
