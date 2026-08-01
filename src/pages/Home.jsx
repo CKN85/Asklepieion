@@ -86,7 +86,25 @@ export default function Home() {
       <header className="pt-36 pb-4 px-8 text-center">
         <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.3em] mb-5">The Sanctuary</div>
         <h1 className="font-heading font-light" style={{ fontSize: 'clamp(3.5rem, 10vw, 7.5rem)', letterSpacing: '0.06em' }}>
-          ASKLEPIEION
+          ASKLE
+          <svg
+            viewBox="0 0 58 96"
+            style={{ width: '0.44em', height: '0.72em', display: 'inline-block', verticalAlign: 'baseline' }}
+            aria-hidden="true"
+          >
+            {/* The stem — the staff. Same colour as the surrounding letters,
+                so it reads as part of the word first. */}
+            <rect x="10" y="2" width="8" height="94" fill="currentColor" />
+            {/* The bowl, redrawn as a serpent's coil — wrapping out past
+                where a normal P's bowl would close, then tapering back in. */}
+            <path
+              d="M18,8 C26,2 42,4 48,14 C54,24 50,38 38,42 C30,45 26,50 32,54 C36,57 33,60 27,58 C21,56 17,50 17,42 C17,34 17,18 18,8 Z"
+              fill="#3F8A66"
+              opacity="0.92"
+            />
+            <circle cx="33" cy="53" r="1.4" fill="#14120F" />
+          </svg>
+          IEION
         </h1>
 
         <div className="flex items-stretch justify-center gap-5 mt-5">
