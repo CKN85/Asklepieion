@@ -29,7 +29,7 @@
 
 .celestial-bg {
   position: relative;
-  background-color: #0E0C09;
+  z-index: 0;
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 260'%3E%3Cg fill='%236B9E82'%3E%3Ccircle cx='18' cy='34' r='0.9' opacity='0.5'/%3E%3Ccircle cx='72' cy='12' r='0.7' opacity='0.35'/%3E%3Ccircle cx='140' cy='58' r='1.1' opacity='0.55'/%3E%3Ccircle cx='205' cy='23' r='0.6' opacity='0.3'/%3E%3Ccircle cx='240' cy='90' r='0.8' opacity='0.4'/%3E%3Ccircle cx='40' cy='110' r='0.6' opacity='0.3'/%3E%3Ccircle cx='95' cy='140' r='1.0' opacity='0.5'/%3E%3Ccircle cx='170' cy='120' r='0.7' opacity='0.35'/%3E%3Ccircle cx='230' cy='160' r='0.9' opacity='0.45'/%3E%3Ccircle cx='15' cy='180' r='0.7' opacity='0.35'/%3E%3Ccircle cx='60' cy='210' r='0.6' opacity='0.3'/%3E%3Ccircle cx='120' cy='230' r='1.0' opacity='0.5'/%3E%3Ccircle cx='180' cy='200' r='0.8' opacity='0.4'/%3E%3Ccircle cx='250' cy='240' r='0.6' opacity='0.3'/%3E%3Ccircle cx='10' cy='250' r='0.9' opacity='0.45'/%3E%3C/g%3E%3C/svg%3E");
   background-repeat: repeat;
