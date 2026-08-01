@@ -22,14 +22,29 @@ export default function HallPage() {
     // stranger first and miss the drafts.
     if (checking) return;
 
+    // If isAdmin resolves a second time after this effect already started
+    // (a stale response arriving late), don't let it clobber a newer result.
+    let cancelled = false;
+
     const load = async () => {
       setLoading(true);
       window.scrollTo(0, 0);
+
+      let h = null;
       try {
         const halls = await base44.entities.Hall.filter({ slug: hallSlug });
-        const h = halls[0] || null;
+        if (cancelled) return;
+        h = halls[0] || null;
         setHall(h);
-        if (h) {
+      } catch (err) {
+        console.error('Could not look up this hall:', err);
+        if (!cancelled) setHall(null);
+      }
+
+      // A failure here means the hall itself is fine but its contents
+      // couldn't load — that should never blank out a hall we already found.
+      if (h) {
+        try {
           const tabletQuery = isAdmin
             ? { hall_id: h.id }                        // drafts included
             : { hall_id: h.id, status: 'published' };
@@ -37,17 +52,20 @@ export default function HallPage() {
             base44.entities.Chapter.filter({ hall_id: h.id }),
             base44.entities.Tablet.filter(tabletQuery),
           ]);
+          if (cancelled) return;
           setChapters(secs.sort((a, b) => (a.order || 0) - (b.order || 0)));
           setTablets(chaps);
+        } catch (err) {
+          console.error('Could not load this hall\'s chapters/tablets:', err);
+          // Intentionally not touching `hall` here — see comment above.
         }
-      } catch (err) {
-        console.error(err);
-        setHall(null);
-      } finally {
-        setLoading(false);
       }
+
+      if (!cancelled) setLoading(false);
     };
     load();
+
+    return () => { cancelled = true; };
   }, [hallSlug, isAdmin, checking]);
 
   useEffect(() => {
