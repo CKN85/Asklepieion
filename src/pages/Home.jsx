@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
@@ -12,7 +12,13 @@ const WINGS = [
 
 const GATE = { slug: 'athens', letter: 'Ε', name: 'ATHENS', field: 'Ethics', x: 340, y: 585, w: 160, h: 56 };
 
-function Wing({ wing, gate, onEnter }) {
+// Every wing's own "draw plinth, then reveal hatch/text" sequence is offset
+// by this many ms from the one before it, so they build up left-to-right
+// across the sanctuary rather than all at once.
+const WING_STAGGER_MS = 180;
+const WINGS_START_MS = 1300;
+
+function Wing({ wing, gate, onEnter, delayMs }) {
   const cx = wing.x + wing.w / 2;
   const cy = wing.y + wing.h / 2;
   const rows = gate
@@ -22,6 +28,7 @@ function Wing({ wing, gate, onEnter }) {
   return (
     <g
       className={`plan-wing${gate ? ' is-gate' : ''}`}
+      style={{ '--wing-delay': `${delayMs}ms`, '--wing-detail-delay': `${delayMs + 260}ms` }}
       role="link"
       tabIndex={0}
       aria-label={`${wing.name} — ${wing.field}`}
@@ -31,7 +38,7 @@ function Wing({ wing, gate, onEnter }) {
       }}
     >
       <title>{`${wing.name} — ${wing.field}`}</title>
-      <rect className="plinth" x={wing.x} y={wing.y} width={wing.w} height={wing.h} />
+      <rect className="plinth" pathLength="1" x={wing.x} y={wing.y} width={wing.w} height={wing.h} />
       <rect className="hatch" x={wing.x} y={wing.y} width={wing.w} height={wing.h} />
       <line className="center-mark" x1={cx} y1={cy - 5} x2={cx} y2={cy + 5} />
       <line className="center-mark" x1={cx - 5} y1={cy} x2={cx + 5} y2={cy} />
@@ -43,9 +50,34 @@ function Wing({ wing, gate, onEnter }) {
   );
 }
 
+/** Fires once, the first time the blueprint scrolls into view. */
+function useInView() {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect(); // plays once — not every scroll past it
+        }
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return [ref, inView];
+}
+
 export default function Home() {
   const navigate = useNavigate();
   const enter = (slug) => navigate(`/hall/${slug}`);
+  const [planRef, planInView] = useInView();
 
   return (
     <div className="min-h-screen text-[#E2DED0]">
@@ -70,7 +102,7 @@ export default function Home() {
       </header>
 
       <div className="max-w-screen-xl mx-auto px-8 mt-8">
-        <div className="blueprint-panel p-8 sm:p-14">
+        <div ref={planRef} className={`blueprint-panel p-8 sm:p-14${planInView ? ' is-drafting' : ''}`}>
           <svg viewBox="0 0 840 700" className="w-full h-auto" aria-label="Plan of the Asklepieion — choose a hall">
             <defs>
               <pattern id="blueGrid" width="24" height="24" patternUnits="userSpaceOnUse">
@@ -82,51 +114,53 @@ export default function Home() {
             </defs>
 
             {/* drafting grid, confined to the sanctuary interior */}
-            <rect x="64" y="84" width="712" height="512" fill="url(#blueGrid)" />
+            <rect className="draft-grid" x="64" y="84" width="712" height="512" fill="url(#blueGrid)" />
 
             {/* sanctuary walls */}
-            <rect className="temenos" x="50" y="70" width="740" height="540" />
-            <rect className="temenos-inner" x="64" y="84" width="712" height="512" />
+            <rect className="temenos" pathLength="1" x="50" y="70" width="740" height="540" />
+            <rect className="temenos-inner" pathLength="1" x="64" y="84" width="712" height="512" />
 
             {/* corner registration marks */}
             {[[50, 70, 1, 1], [790, 70, -1, 1], [50, 610, 1, -1], [790, 610, -1, -1]].map(([cx, cy, dx, dy], i) => (
-              <g key={i} className="corner-mark">
-                <line x1={cx} y1={cy} x2={cx + 14 * dx} y2={cy} />
-                <line x1={cx} y1={cy} x2={cx} y2={cy + 14 * dy} />
+              <g key={i} className="corner-mark" style={{ '--mark-delay': `${600 + i * 60}ms` }}>
+                <line pathLength="1" x1={cx} y1={cy} x2={cx + 14 * dx} y2={cy} />
+                <line pathLength="1" x1={cx} y1={cy} x2={cx} y2={cy + 14 * dy} />
               </g>
             ))}
 
             {/* dimension lines */}
-            <g className="dimension-line">
-              <line x1="50" y1="40" x2="790" y2="40" />
-              <line className="dimension-tick" x1="50" y1="34" x2="50" y2="46" />
-              <line className="dimension-tick" x1="790" y1="34" x2="790" y2="46" />
+            <g className="dimension-line draft-dimension">
+              <line pathLength="1" x1="50" y1="40" x2="790" y2="40" />
+              <line className="dimension-tick" pathLength="1" x1="50" y1="34" x2="50" y2="46" />
+              <line className="dimension-tick" pathLength="1" x1="790" y1="34" x2="790" y2="46" />
             </g>
-            <text className="dimension-label" x="420" y="28">120 ΠΟΔΕΣ</text>
+            <text className="dimension-label draft-dimension-label" x="420" y="28">120 ΠΟΔΕΣ</text>
 
-            <g className="dimension-line">
-              <line x1="25" y1="70" x2="25" y2="610" />
-              <line className="dimension-tick" x1="19" y1="70" x2="31" y2="70" />
-              <line className="dimension-tick" x1="19" y1="610" x2="31" y2="610" />
+            <g className="dimension-line draft-dimension">
+              <line pathLength="1" x1="25" y1="70" x2="25" y2="610" />
+              <line className="dimension-tick" pathLength="1" x1="19" y1="70" x2="31" y2="70" />
+              <line className="dimension-tick" pathLength="1" x1="19" y1="610" x2="31" y2="610" />
             </g>
-            <text className="dimension-label" x="16" y="340" transform="rotate(-90 16 340)">88 ΠΟΔΕΣ</text>
+            <text className="dimension-label draft-dimension-label" x="16" y="340" transform="rotate(-90 16 340)">88 ΠΟΔΕΣ</text>
 
             {/* compass mark */}
-            <g transform="translate(150, 150)">
-              <line className="compass-mark" x1="0" y1="14" x2="0" y2="-14" />
-              <path className="compass-mark" d="M -4 -8 L 0 -16 L 4 -8" fill="none" />
+            <g className="draft-compass" transform="translate(150, 150)">
+              <line className="compass-mark" pathLength="1" x1="0" y1="14" x2="0" y2="-14" />
+              <path className="compass-mark" pathLength="1" d="M -4 -8 L 0 -16 L 4 -8" fill="none" />
               <text className="compass-label" x="0" y="28">N</text>
             </g>
 
             {/* sacred ways from each wing to the tholos */}
-            <line className="corridor" x1="420" y1="215" x2="420" y2="282" />
-            <line className="corridor" x1="420" y1="398" x2="420" y2="450" />
-            <line className="corridor" x1="235" y1="340" x2="362" y2="340" />
-            <line className="corridor" x1="478" y1="340" x2="605" y2="340" />
+            <g className="draft-corridors">
+              <line className="corridor" x1="420" y1="215" x2="420" y2="282" />
+              <line className="corridor" x1="420" y1="398" x2="420" y2="450" />
+              <line className="corridor" x1="235" y1="340" x2="362" y2="340" />
+              <line className="corridor" x1="478" y1="340" x2="605" y2="340" />
+            </g>
 
             {/* the tholos — the Archive at the centre */}
             <g
-              className="plan-wing tholos"
+              className="plan-wing tholos draft-tholos"
               role="link"
               tabIndex={0}
               aria-label="The Archive — index and search"
@@ -136,21 +170,23 @@ export default function Home() {
               }}
             >
               <title>The Archive — index &amp; search</title>
-              <circle className="tholos-outer" cx="420" cy="340" r="58" />
-              <circle className="tholos-ring" cx="420" cy="340" r="42" />
-              <circle className="tholos-ring" cx="420" cy="340" r="26" />
+              <circle className="tholos-outer" pathLength="1" cx="420" cy="340" r="58" />
+              <circle className="tholos-ring ring-1" pathLength="1" cx="420" cy="340" r="42" />
+              <circle className="tholos-ring ring-2" pathLength="1" cx="420" cy="340" r="26" />
               <line className="center-mark" x1="420" y1="332" x2="420" y2="348" />
               <line className="center-mark" x1="412" y1="340" x2="428" y2="340" />
               <text className="tholos-label" x="420" y="338">ARCHIVE</text>
               <text className="tholos-sub" x="420" y="353">INDEX &amp; SEARCH</text>
             </g>
 
-            {WINGS.map(w => <Wing key={w.slug} wing={w} onEnter={enter} />)}
-            <Wing wing={GATE} gate onEnter={enter} />
+            {WINGS.map((w, i) => (
+              <Wing key={w.slug} wing={w} onEnter={enter} delayMs={WINGS_START_MS + i * WING_STAGGER_MS} />
+            ))}
+            <Wing wing={GATE} gate onEnter={enter} delayMs={WINGS_START_MS + WINGS.length * WING_STAGGER_MS} />
 
             {/* title block */}
-            <g>
-              <rect className="title-block" x="600" y="558" width="190" height="44" />
+            <g className="draft-titleblock">
+              <rect className="title-block" pathLength="1" x="600" y="558" width="190" height="44" />
               <line className="dimension-line" x1="600" y1="580" x2="790" y2="580" />
               <text className="title-block-heading" x="612" y="574" fontSize="11">ASKLEPIEION</text>
               <text className="title-block-text" x="612" y="594" fontSize="7">TEMENOS PLAN — Α ΕΩΣ Ε</text>

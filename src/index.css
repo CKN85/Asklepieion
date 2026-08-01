@@ -251,6 +251,152 @@
 
 .plan-wing:focus-visible { outline: 1px solid #3F8A66; outline-offset: 4px; }
 
+/* ---------------------------------------------------------------------------
+   Blueprint construction animation — plays once, the first time the plan
+   scrolls into view (triggered by the .is-drafting class in Home.jsx).
+   Sequence: grid → walls → dimensions/compass → corridors → the Archive →
+   each hall in turn, left to right → title block last.
+   --------------------------------------------------------------------------- */
+
+.blueprint-panel .draft-grid { opacity: 0; }
+
+.blueprint-panel .temenos,
+.blueprint-panel .temenos-inner,
+.blueprint-panel .corner-mark line,
+.blueprint-panel .draft-dimension line,
+.blueprint-panel .draft-compass .compass-mark,
+.blueprint-panel .tholos-outer,
+.blueprint-panel .tholos-ring,
+.blueprint-panel .plan-wing:not(.is-gate) .plinth,
+.blueprint-panel .title-block {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.blueprint-panel .draft-dimension-label,
+.blueprint-panel .draft-compass .compass-label,
+.blueprint-panel .draft-corridors,
+.blueprint-panel .draft-tholos .center-mark,
+.blueprint-panel .draft-tholos .tholos-label,
+.blueprint-panel .draft-tholos .tholos-sub,
+.blueprint-panel .draft-titleblock .title-block-heading,
+.blueprint-panel .draft-titleblock .title-block-text,
+.blueprint-panel .draft-titleblock .dimension-line,
+.blueprint-panel .plan-wing.is-gate .plinth,
+.blueprint-panel .plan-wing .hatch,
+.blueprint-panel .plan-wing:not(.tholos) .center-mark,
+.blueprint-panel .plan-wing .mark,
+.blueprint-panel .plan-wing .name,
+.blueprint-panel .plan-wing .field {
+  opacity: 0;
+}
+
+@keyframes draftDraw { to { stroke-dashoffset: 0; } }
+@keyframes draftFade { to { opacity: 1; } }
+
+.blueprint-panel.is-drafting .draft-grid {
+  animation: draftFade 500ms ease-out forwards;
+}
+.blueprint-panel.is-drafting .temenos {
+  animation: draftDraw 550ms ease-out 150ms forwards;
+}
+.blueprint-panel.is-drafting .temenos-inner {
+  animation: draftDraw 550ms ease-out 350ms forwards;
+}
+.blueprint-panel.is-drafting .corner-mark line {
+  animation: draftDraw 250ms ease-out forwards;
+  animation-delay: var(--mark-delay, 650ms);
+}
+.blueprint-panel.is-drafting .draft-dimension line {
+  animation: draftDraw 400ms ease-out 750ms forwards;
+}
+.blueprint-panel.is-drafting .draft-dimension-label {
+  animation: draftFade 350ms ease-out 950ms forwards;
+}
+.blueprint-panel.is-drafting .draft-compass .compass-mark {
+  animation: draftDraw 350ms ease-out 850ms forwards;
+}
+.blueprint-panel.is-drafting .draft-compass .compass-label {
+  animation: draftFade 300ms ease-out 1150ms forwards;
+}
+.blueprint-panel.is-drafting .draft-corridors {
+  animation: draftFade 400ms ease-out 1050ms forwards;
+}
+.blueprint-panel.is-drafting .draft-tholos .tholos-outer {
+  animation: draftDraw 450ms ease-out 1200ms forwards;
+}
+.blueprint-panel.is-drafting .draft-tholos .ring-1 {
+  animation: draftDraw 350ms ease-out 1450ms forwards;
+}
+.blueprint-panel.is-drafting .draft-tholos .ring-2 {
+  animation: draftDraw 350ms ease-out 1600ms forwards;
+}
+.blueprint-panel.is-drafting .draft-tholos .center-mark {
+  animation: draftFade 250ms ease-out 1750ms forwards;
+}
+.blueprint-panel.is-drafting .draft-tholos .tholos-label,
+.blueprint-panel.is-drafting .draft-tholos .tholos-sub {
+  animation: draftFade 350ms ease-out 1800ms forwards;
+}
+
+.blueprint-panel.is-drafting .plan-wing:not(.is-gate) .plinth {
+  animation: draftDraw 420ms ease-out forwards;
+  animation-delay: var(--wing-delay, 1300ms);
+}
+.blueprint-panel.is-drafting .plan-wing.is-gate .plinth {
+  animation: draftFade 350ms ease-out forwards;
+  animation-delay: var(--wing-delay, 1300ms);
+}
+.blueprint-panel.is-drafting .plan-wing .hatch,
+.blueprint-panel.is-drafting .plan-wing:not(.tholos) .center-mark,
+.blueprint-panel.is-drafting .plan-wing .mark,
+.blueprint-panel.is-drafting .plan-wing .name,
+.blueprint-panel.is-drafting .plan-wing .field {
+  animation: draftFade 350ms ease-out forwards;
+  animation-delay: var(--wing-detail-delay, 1560ms);
+}
+
+.blueprint-panel.is-drafting .draft-titleblock .title-block {
+  animation: draftDraw 400ms ease-out 2350ms forwards;
+}
+.blueprint-panel.is-drafting .draft-titleblock .title-block-heading,
+.blueprint-panel.is-drafting .draft-titleblock .title-block-text,
+.blueprint-panel.is-drafting .draft-titleblock .dimension-line {
+  animation: draftFade 350ms ease-out 2650ms forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blueprint-panel .draft-grid,
+  .blueprint-panel .draft-dimension-label,
+  .blueprint-panel .draft-compass .compass-label,
+  .blueprint-panel .draft-corridors,
+  .blueprint-panel .draft-tholos .center-mark,
+  .blueprint-panel .draft-tholos .tholos-label,
+  .blueprint-panel .draft-tholos .tholos-sub,
+  .blueprint-panel .draft-titleblock .title-block-heading,
+  .blueprint-panel .draft-titleblock .title-block-text,
+  .blueprint-panel .draft-titleblock .dimension-line,
+  .blueprint-panel .plan-wing.is-gate .plinth,
+  .blueprint-panel .plan-wing .hatch,
+  .blueprint-panel .plan-wing:not(.tholos) .center-mark,
+  .blueprint-panel .plan-wing .mark,
+  .blueprint-panel .plan-wing .name,
+  .blueprint-panel .plan-wing .field {
+    opacity: 1;
+  }
+  .blueprint-panel .temenos,
+  .blueprint-panel .temenos-inner,
+  .blueprint-panel .corner-mark line,
+  .blueprint-panel .draft-dimension line,
+  .blueprint-panel .draft-compass .compass-mark,
+  .blueprint-panel .tholos-outer,
+  .blueprint-panel .tholos-ring,
+  .blueprint-panel .plan-wing:not(.is-gate) .plinth,
+  .blueprint-panel .title-block {
+    stroke-dashoffset: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
 }
