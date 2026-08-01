@@ -91,13 +91,8 @@ export default function Home() {
         <p style={{ fontFamily: 'Source Serif 4, Georgia, serif', color: '#7A7268', fontStyle: 'italic' }} className="mt-3">
           Ἀσκληπιεῖον
         </p>
-        <p
-          className="max-w-xl mx-auto mt-7"
-          style={{ fontFamily: 'Source Serif 4, Georgia, serif', color: '#A89880', fontSize: '1.05rem', lineHeight: '1.75' }}
-        >
-          Four halls and a gate. Anatomy, physiology, biochemistry, and
-          histopathology written in full — and cross-referenced exactly where
-          the body itself connects them.
+        <p className="label-caps mt-6" style={{ color: '#6B9E82', fontSize: '10px', letterSpacing: '0.28em' }}>
+          For Asclepiads
         </p>
       </header>
 

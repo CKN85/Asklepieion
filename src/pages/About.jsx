@@ -61,6 +61,23 @@ export default function About() {
         </div>
 
         {state.status === 'ready' && state.page && (
+          <div className="text-center mb-14">
+            <p className="font-heading" style={{ fontSize: '1.15rem', color: '#6B9E82', fontWeight: 400 }}>
+              Ὁ βίος βραχύς, ἡ δὲ τέχνη μακρή
+            </p>
+            <p
+              className="mt-2"
+              style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontStyle: 'italic', color: '#7A7268', fontSize: '0.92rem' }}
+            >
+              "Life is short, the art is long."
+            </p>
+            <p className="label-caps mt-3" style={{ color: '#3A3530', fontSize: '8px', letterSpacing: '0.2em' }}>
+              — The Hippocratic Aphorisms
+            </p>
+          </div>
+        )}
+
+        {state.status === 'ready' && state.page && (
           <>
             <div
               className="tablet-body"
