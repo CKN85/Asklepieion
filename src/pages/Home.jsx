@@ -69,8 +69,8 @@ export default function Home() {
         </p>
       </header>
 
-      <div className="max-w-5xl mx-auto px-8 mt-8">
-        <div className="blueprint-panel p-6 sm:p-10">
+      <div className="max-w-screen-xl mx-auto px-8 mt-8">
+        <div className="blueprint-panel p-8 sm:p-14">
           <svg viewBox="0 0 840 700" className="w-full h-auto" aria-label="Plan of the Asklepieion — choose a hall">
             <defs>
               <pattern id="blueGrid" width="24" height="24" patternUnits="userSpaceOnUse">
