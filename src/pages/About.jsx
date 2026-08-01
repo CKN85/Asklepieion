@@ -29,7 +29,7 @@ export default function About() {
   }, [state.page]);
 
   return (
-    <div className="min-h-screen text-[#E2DED0] celestial-bg">
+    <div className="min-h-screen text-[#E2DED0]">
       <SiteNav />
 
       <main className="max-w-2xl mx-auto px-8 pt-32 pb-24">
