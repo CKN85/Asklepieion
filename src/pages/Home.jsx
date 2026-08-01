@@ -89,11 +89,11 @@ export default function Home() {
           ASKLEPIEION
         </h1>
 
-        <div className="flex items-center justify-center gap-5 mt-5">
+        <div className="flex items-stretch justify-center gap-5 mt-5">
           <span style={{ fontFamily: 'Source Serif 4, Georgia, serif', color: '#7A7268', fontStyle: 'italic', fontSize: '1rem' }}>
             Ἀσκληπιεῖον
           </span>
-          <span aria-hidden="true" style={{ width: '1px', height: '14px', background: '#2A2620' }} />
+          <span aria-hidden="true" style={{ width: '1px', background: '#2A2620', alignSelf: 'stretch' }} />
           <span className="label-caps" style={{ color: '#6B9E82', fontSize: '10px', letterSpacing: '0.28em' }}>
             For Asclepiads
           </span>
@@ -108,6 +108,9 @@ export default function Home() {
             style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontStyle: 'italic', color: '#7A7268', fontSize: '0.9rem' }}
           >
             "Life is short, the art is long."
+          </p>
+          <p className="label-caps mt-2" style={{ color: '#3A3530', fontSize: '8px', letterSpacing: '0.2em' }}>
+            — The Hippocratic Aphorisms
           </p>
         </div>
       </header>
