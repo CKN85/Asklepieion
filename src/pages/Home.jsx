@@ -80,7 +80,7 @@ export default function Home() {
   const [planRef, planInView] = useInView();
 
   return (
-    <div className="min-h-screen text-[#E2DED0]">
+    <div className="min-h-screen text-[#E2DED0] celestial-bg">
       <SiteNav />
 
       <header className="pt-36 pb-4 px-8 text-center">
