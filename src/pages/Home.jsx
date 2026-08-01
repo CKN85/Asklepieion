@@ -95,14 +95,17 @@ export default function Home() {
             {/* The stem — the staff. Same colour as the surrounding letters,
                 so it reads as part of the word first. */}
             <rect x="10" y="2" width="8" height="94" fill="currentColor" />
-            {/* The bowl, redrawn as a serpent's coil — wrapping out past
-                where a normal P's bowl would close, then tapering back in. */}
+            {/* The serpent — one simple curve forming the P's bowl, with a
+                short tail continuing to wind below it. */}
             <path
-              d="M18,8 C26,2 42,4 48,14 C54,24 50,38 38,42 C30,45 26,50 32,54 C36,57 33,60 27,58 C21,56 17,50 17,42 C17,34 17,18 18,8 Z"
-              fill="#3F8A66"
-              opacity="0.92"
+              d="M20,6 C36,3 47,13 44,24 C41,35 27,40 18,37 C11,41 14,49 21,47"
+              fill="none"
+              stroke="#3F8A66"
+              strokeWidth="4"
+              strokeLinecap="round"
             />
-            <circle cx="33" cy="53" r="1.4" fill="#14120F" />
+            <ellipse cx="21" cy="5" rx="4.2" ry="3.2" fill="#3F8A66" />
+            <circle cx="22.5" cy="4" r="0.9" fill="#14120F" />
           </svg>
           IEION
         </h1>
