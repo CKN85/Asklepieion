@@ -90,28 +90,23 @@ export default function Home() {
           <span style={{ position: 'relative', display: 'inline-block' }}>
             P
             <svg
-              viewBox="0 0 20 100"
+              viewBox="0 0 40 40"
               style={{
                 position: 'absolute',
-                left: '6%',
-                top: '2%',
-                width: '34%',
-                height: '96%',
+                left: '38%',
+                top: '18%',
+                width: '26%',
+                height: '26%',
                 pointerEvents: 'none',
+                overflow: 'visible',
               }}
               aria-hidden="true"
             >
-              {/* The staff. */}
-              <line x1="10" y1="4" x2="10" y2="96" stroke="#3F8A66" strokeWidth="2.4" strokeLinecap="round" />
-              {/* A single serpent winding the length of it. */}
-              <path
-                d="M10,10 C19,17 2,27 10,36 C18,45 2,55 10,64 C18,73 2,83 10,90"
-                fill="none"
-                stroke="#3F8A66"
-                strokeWidth="1.9"
-                strokeLinecap="round"
-              />
-              <ellipse cx="10" cy="6" rx="3.2" ry="2.4" fill="#3F8A66" />
+              {/* The Tholos — the same concentric rotunda that sits at the
+                  centre of the sanctuary plan, tucked into the P's counter. */}
+              <circle cx="20" cy="20" r="17" fill="none" stroke="#3F8A66" strokeWidth="2.4" opacity="0.9" />
+              <circle cx="20" cy="20" r="10" fill="none" stroke="#3F8A66" strokeWidth="1.8" opacity="0.65" />
+              <circle cx="20" cy="20" r="3.4" fill="#3F8A66" opacity="0.85" />
             </svg>
           </span>
           IEION
