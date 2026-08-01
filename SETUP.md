@@ -8,6 +8,11 @@ schema. Content lives in Supabase (free); the site is hosted on GitHub Pages
 
 ## 1. Supabase
 
+**Already have this project live?** Run `supabase/migration-to-tablets.sql`
+instead of the steps below — it renames your existing tables in place and
+keeps everything you've already created. Then skip to step 2.
+
+**Fresh install:**
 1. Sign up at https://supabase.com and create a project.
 2. Open **SQL Editor**, paste in the whole of `supabase/schema.sql`, press
    **Run**. This creates the three tables, seeds the five halls, and sets the

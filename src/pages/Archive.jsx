@@ -13,9 +13,9 @@ const HALL_DISCIPLINES = { trikka: 'Anatomy', epidaurus: 'Physiology', kos: 'Bio
 export default function Archive() {
   const { isAdmin, checking } = useSession();
   const [query, setQuery] = useState('');
-  const [chapters, setChapters] = useState([]);
+  const [tablets, setTablets] = useState([]);
   const [halls, setHalls] = useState([]);
-  const [sections, setSections] = useState([]);
+  const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeHall, setActiveHall] = useState('all');
 
@@ -27,14 +27,14 @@ export default function Archive() {
       try {
         const [chaps, hs, secs] = await Promise.all([
           isAdmin
-            ? base44.entities.Chapter.list('-updated_date', 500)
-            : base44.entities.Chapter.filter({ status: 'published' }),
+            ? base44.entities.Tablet.list('-updated_date', 500)
+            : base44.entities.Tablet.filter({ status: 'published' }),
           base44.entities.Hall.list(),
-          base44.entities.Section.list(),
+          base44.entities.Chapter.list(),
         ]);
-        setChapters(chaps);
+        setTablets(chaps);
         setHalls(hs.sort((a, b) => (a.order || 0) - (b.order || 0)));
-        setSections(secs);
+        setChapters(secs);
       } catch (err) {
         console.error(err);
       } finally {
@@ -44,16 +44,16 @@ export default function Archive() {
     load();
   }, [isAdmin, checking]);
 
-  const sectionMap = useMemo(() => {
-    const m = {}; sections.forEach(s => { m[s.id] = s; }); return m;
-  }, [sections]);
+  const chapterMap = useMemo(() => {
+    const m = {}; chapters.forEach(s => { m[s.id] = s; }); return m;
+  }, [chapters]);
 
   const hallMap = useMemo(() => {
     const m = {}; halls.forEach(h => { m[h.id] = h; }); return m;
   }, [halls]);
 
   const filtered = useMemo(() => {
-    let result = chapters;
+    let result = tablets;
     if (activeHall !== 'all') {
       const hall = halls.find(h => h.slug === activeHall);
       if (hall) result = result.filter(c => c.hall_id === hall.id);
@@ -63,11 +63,11 @@ export default function Archive() {
       result = result.filter(c =>
         c.title?.toLowerCase().includes(q) ||
         c.body?.toLowerCase().includes(q) ||
-        sectionMap[c.section_id]?.title?.toLowerCase().includes(q)
+        chapterMap[c.chapter_id]?.title?.toLowerCase().includes(q)
       );
     }
     return result;
-  }, [chapters, query, activeHall, halls, sectionMap]);
+  }, [tablets, query, activeHall, halls, chapterMap]);
 
   const grouped = useMemo(() => {
     const groups = {};
@@ -81,7 +81,7 @@ export default function Archive() {
   }, [filtered]);
 
   const alphabet = Object.keys(grouped).sort();
-  const draftCount = chapters.filter(c => c.status !== 'published').length;
+  const draftCount = tablets.filter(c => c.status !== 'published').length;
 
   return (
     <div className="min-h-screen bg-[#0E0C09] text-[#E2DED0]">
@@ -98,7 +98,7 @@ export default function Archive() {
             <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#3A3530]" />
             <input
               type="text"
-              placeholder="Search chapters, topics, disciplines..."
+              placeholder="Search tablets, topics, disciplines..."
               value={query}
               onChange={e => setQuery(e.target.value)}
               className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] pl-10 pr-4 py-3 focus:outline-none focus:border-[#C9A84C] transition-colors duration-200"
@@ -143,7 +143,7 @@ export default function Archive() {
           <div className="text-center py-24">
             <div className="font-heading text-[#2A2620] text-4xl mb-4">⚕</div>
             <p className="label-caps text-[#3A3530] tracking-widest">
-              {query ? 'No chapters match your search' : 'No chapters published yet'}
+              {query ? 'No tablets match your search' : 'No tablets published yet'}
             </p>
           </div>
         ) : (
@@ -156,14 +156,14 @@ export default function Archive() {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  {grouped[letter].map(chapter => {
-                    const h = hallMap[chapter.hall_id];
-                    const s = sectionMap[chapter.section_id];
+                  {grouped[letter].map(tablet => {
+                    const h = hallMap[tablet.hall_id];
+                    const s = chapterMap[tablet.chapter_id];
                     const hSlug = h?.slug || '';
                     return (
                       <Link
-                        key={chapter.id}
-                        to={`/chapter/${chapter.id}`}
+                        key={tablet.id}
+                        to={`/tablet/${tablet.id}`}
                         className="flex items-center justify-between py-3 border-b border-[#1A1815] group gap-4"
                       >
                         <div className="flex items-center gap-4 min-w-0">
@@ -175,9 +175,9 @@ export default function Archive() {
                           <div className="min-w-0">
                             <div className="flex items-center gap-2.5">
                               <div className="font-heading text-lg font-light text-[#A89880] group-hover:text-[#E2DED0] transition-colors truncate">
-                                {chapter.title}
+                                {tablet.title}
                               </div>
-                              {isAdmin && <DraftBadge status={chapter.status} />}
+                              {isAdmin && <DraftBadge status={tablet.status} />}
                             </div>
                             {s && (
                               <div className="label-caps text-[#3A3530] text-[8px] mt-0.5">
@@ -187,9 +187,9 @@ export default function Archive() {
                           </div>
                         </div>
                         <div className="flex items-center gap-4 ml-4 shrink-0">
-                          {chapter.reading_time_minutes && (
+                          {tablet.reading_time_minutes && (
                             <span className="hidden sm:block label-caps text-[#2A2620] text-[8px]">
-                              {chapter.reading_time_minutes} min
+                              {tablet.reading_time_minutes} min
                             </span>
                           )}
                           <span className="text-[#C9A84C] opacity-0 group-hover:opacity-60 transition-opacity">→</span>

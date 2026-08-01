@@ -2,7 +2,7 @@
 // The Asklepieion client.
 //
 // This exposes the same shape your pages already call —
-//   client.entities.Chapter.list('-updated_date', 200)
+//   client.entities.Tablet.list('-updated_date', 200)
 //   client.entities.Hall.get(id)
 //   client.auth.loginViaEmailPassword(email, password)
 // — but talks to Supabase instead of a hosted app platform.
@@ -105,8 +105,8 @@ function entity(table) {
 export const client = {
   entities: {
     Hall: entity("halls"),
-    Section: entity("sections"),
     Chapter: entity("chapters"),
+    Tablet: entity("tablets"),
   },
 
   auth: {

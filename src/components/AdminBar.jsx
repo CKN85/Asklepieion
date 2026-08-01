@@ -14,13 +14,13 @@ import useSession from '@/hooks/useSession';
 export default function AdminBar() {
   const { isAdmin, email } = useSession();
   const location = useLocation();
-  const chapterMatch = useMatch('/chapter/:chapterId');
+  const tabletMatch = useMatch('/tablet/:tabletId');
 
   // Don't show it inside the admin area — you're already there.
   const inAdminArea = location.pathname.startsWith('/admin');
   if (!isAdmin || inAdminArea) return null;
 
-  const chapterId = chapterMatch?.params?.chapterId;
+  const tabletId = tabletMatch?.params?.tabletId;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-[#0E0C09]/95 backdrop-blur border-t border-[#C9A84C]/25">
@@ -38,12 +38,12 @@ export default function AdminBar() {
         </div>
 
         <div className="flex items-center gap-5 shrink-0">
-          {chapterId && (
+          {tabletId && (
             <Link
-              to={`/admin/chapters/${chapterId}/edit`}
+              to={`/admin/tablets/${tabletId}/edit`}
               className="flex items-center gap-1.5 label-caps text-[#C9A84C] text-[9px] tracking-[0.15em] hover:opacity-75 transition-opacity"
             >
-              <Pencil size={10} /> Edit this chapter
+              <Pencil size={10} /> Edit this tablet
             </Link>
           )}
           <Link
@@ -66,7 +66,7 @@ export default function AdminBar() {
   );
 }
 
-/** Small "DRAFT" tag for chapters only you can see. */
+/** Small "DRAFT" tag for tablets only you can see. */
 export function DraftBadge({ status }) {
   if (status === 'published') return null;
   return (
@@ -76,7 +76,7 @@ export function DraftBadge({ status }) {
   );
 }
 
-/** Banner at the top of an unpublished chapter. */
+/** Banner at the top of an unpublished tablet. */
 export function DraftNotice({ status }) {
   if (status === 'published') return null;
   return (

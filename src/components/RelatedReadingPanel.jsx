@@ -9,8 +9,8 @@ function RefGroup({ heading, refs }) {
       <div className="flex flex-col">
         {refs.map((ref, i) => (
           <Link
-            key={`${ref.chapter_id}-${i}`}
-            to={`/chapter/${ref.chapter_id}`}
+            key={`${ref.tablet_id}-${i}`}
+            to={`/tablet/${ref.tablet_id}`}
             className="py-3 border-b border-[#1A1815] last:border-0 group"
           >
             {ref.hall_name && (
@@ -20,7 +20,7 @@ function RefGroup({ heading, refs }) {
               style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '0.9rem', color: '#A89880' }}
               className="group-hover:text-[#E2DED0] transition-colors leading-snug"
             >
-              {ref.label || ref.chapter_title}
+              {ref.label || ref.tablet_title}
             </div>
           </Link>
         ))}
@@ -30,7 +30,7 @@ function RefGroup({ heading, refs }) {
 }
 
 /**
- * Desktop-only companion column. On narrower screens the chapter page renders
+ * Desktop-only companion column. On narrower screens the tablet page renders
  * the same references inline beneath the prose instead.
  */
 export default function RelatedReadingPanel({ crossReferences, relatedReading }) {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-/** A thin gold rule across the top showing how far through a chapter you are. */
+/** A thin gold rule across the top showing how far through a tablet you are. */
 export default function ReadingProgress() {
   const [progress, setProgress] = useState(0);
 

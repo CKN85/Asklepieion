@@ -4,27 +4,27 @@ import { Plus, BookOpen, Layers, FileText, LogOut, Eye } from 'lucide-react';
 import { base44 } from '@/api/client';
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState({ halls: 0, sections: 0, published: 0, drafts: 0 });
-  const [recentChapters, setRecentChapters] = useState([]);
+  const [stats, setStats] = useState({ halls: 0, chapters: 0, published: 0, drafts: 0 });
+  const [recentTablets, setRecentTablets] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
       setLoading(true);
       try {
-        // One fetch of all chapters covers both the counts and the recent list.
-        const [halls, sections, allChapters] = await Promise.all([
+        // One fetch of all tablets covers both the counts and the recent list.
+        const [halls, chapters, allTablets] = await Promise.all([
           base44.entities.Hall.list(),
-          base44.entities.Section.list(),
-          base44.entities.Chapter.list('-updated_date', 200),
+          base44.entities.Chapter.list(),
+          base44.entities.Tablet.list('-updated_date', 200),
         ]);
         setStats({
           halls: halls.length,
-          sections: sections.length,
-          published: allChapters.filter(c => c.status === 'published').length,
-          drafts: allChapters.filter(c => c.status !== 'published').length,
+          chapters: chapters.length,
+          published: allTablets.filter(c => c.status === 'published').length,
+          drafts: allTablets.filter(c => c.status !== 'published').length,
         });
-        setRecentChapters(allChapters.slice(0, 10));
+        setRecentTablets(allTablets.slice(0, 10));
       } finally {
         setLoading(false);
       }
@@ -38,9 +38,9 @@ export default function AdminDashboard() {
 
   const statCards = [
     { label: 'Halls', value: stats.halls, icon: Layers, to: '/admin/halls' },
-    { label: 'Sections', value: stats.sections, icon: BookOpen, to: '/admin/halls' },
-    { label: 'Published', value: stats.published, icon: FileText, to: '/admin/chapters' },
-    { label: 'Drafts', value: stats.drafts, icon: FileText, to: '/admin/chapters' },
+    { label: 'Chapters', value: stats.chapters, icon: BookOpen, to: '/admin/halls' },
+    { label: 'Published', value: stats.published, icon: FileText, to: '/admin/tablets' },
+    { label: 'Drafts', value: stats.drafts, icon: FileText, to: '/admin/tablets' },
   ];
 
   return (
@@ -78,14 +78,14 @@ export default function AdminDashboard() {
         </div>
 
         <div className="flex flex-wrap gap-3 mb-16">
-          <Link to="/admin/chapters/new" className="flex items-center gap-2 label-caps text-[#C9A84C] border border-[#C9A84C]/40 px-5 py-2.5 hover:bg-[#C9A84C]/10 transition-all duration-200 text-[9px] tracking-[0.2em]">
-            <Plus size={11} /> New Chapter
+          <Link to="/admin/tablets/new" className="flex items-center gap-2 label-caps text-[#C9A84C] border border-[#C9A84C]/40 px-5 py-2.5 hover:bg-[#C9A84C]/10 transition-all duration-200 text-[9px] tracking-[0.2em]">
+            <Plus size={11} /> New Tablet
           </Link>
           <Link to="/admin/halls" className="flex items-center gap-2 label-caps text-[#7A7268] border border-[#2A2620] px-5 py-2.5 hover:border-[#3A3530] hover:text-[#E2DED0] transition-all duration-200 text-[9px] tracking-[0.2em]">
-            <Layers size={11} /> Manage Halls &amp; Sections
+            <Layers size={11} /> Manage Halls &amp; Chapters
           </Link>
-          <Link to="/admin/chapters" className="flex items-center gap-2 label-caps text-[#7A7268] border border-[#2A2620] px-5 py-2.5 hover:border-[#3A3530] hover:text-[#E2DED0] transition-all duration-200 text-[9px] tracking-[0.2em]">
-            <FileText size={11} /> All Chapters
+          <Link to="/admin/tablets" className="flex items-center gap-2 label-caps text-[#7A7268] border border-[#2A2620] px-5 py-2.5 hover:border-[#3A3530] hover:text-[#E2DED0] transition-all duration-200 text-[9px] tracking-[0.2em]">
+            <FileText size={11} /> All Tablets
           </Link>
         </div>
 
@@ -96,10 +96,10 @@ export default function AdminDashboard() {
               <div className="py-8 text-center">
                 <div className="w-5 h-5 border border-[#3A3530] border-t-[#C9A84C] rounded-full animate-spin mx-auto" />
               </div>
-            ) : recentChapters.length === 0 ? (
-              <p className="label-caps text-[#2A2620] tracking-widest py-8">No chapters yet</p>
+            ) : recentTablets.length === 0 ? (
+              <p className="label-caps text-[#2A2620] tracking-widest py-8">No tablets yet</p>
             ) : (
-              recentChapters.map(ch => (
+              recentTablets.map(ch => (
                 <div key={ch.id} className="flex items-center justify-between py-3 border-b border-[#1A1815] group">
                   <div className="flex items-center gap-4 min-w-0">
                     <span className={`label-caps text-[8px] px-2 py-0.5 border ${
@@ -112,10 +112,10 @@ export default function AdminDashboard() {
                     <span className="font-heading text-lg font-light text-[#A89880] truncate">{ch.title}</span>
                   </div>
                   <div className="flex items-center gap-3 ml-4 shrink-0">
-                    <Link to={`/chapter/${ch.id}`} className="label-caps text-[#3A3530] hover:text-[#7A7268] text-[8px] hidden sm:block transition-colors">
+                    <Link to={`/tablet/${ch.id}`} className="label-caps text-[#3A3530] hover:text-[#7A7268] text-[8px] hidden sm:block transition-colors">
                       View
                     </Link>
-                    <Link to={`/admin/chapters/${ch.id}/edit`} className="label-caps text-[#C9A84C] text-[8px] opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Link to={`/admin/tablets/${ch.id}/edit`} className="label-caps text-[#C9A84C] text-[8px] opacity-0 group-hover:opacity-100 transition-opacity">
                       Edit →
                     </Link>
                   </div>

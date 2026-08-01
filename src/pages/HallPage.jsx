@@ -13,8 +13,8 @@ export default function HallPage() {
   const { hallSlug } = useParams();
   const { isAdmin, checking } = useSession();
   const [hall, setHall] = useState(null);
-  const [sections, setSections] = useState([]);
   const [chapters, setChapters] = useState([]);
+  const [tablets, setTablets] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,15 +30,15 @@ export default function HallPage() {
         const h = halls[0] || null;
         setHall(h);
         if (h) {
-          const chapterQuery = isAdmin
+          const tabletQuery = isAdmin
             ? { hall_id: h.id }                        // drafts included
             : { hall_id: h.id, status: 'published' };
           const [secs, chaps] = await Promise.all([
-            base44.entities.Section.filter({ hall_id: h.id }),
-            base44.entities.Chapter.filter(chapterQuery),
+            base44.entities.Chapter.filter({ hall_id: h.id }),
+            base44.entities.Tablet.filter(tabletQuery),
           ]);
-          setSections(secs.sort((a, b) => (a.order || 0) - (b.order || 0)));
-          setChapters(chaps);
+          setChapters(secs.sort((a, b) => (a.order || 0) - (b.order || 0)));
+          setTablets(chaps);
         }
       } catch (err) {
         console.error(err);
@@ -54,14 +54,14 @@ export default function HallPage() {
     document.title = hall ? `Hall of ${hall.name} — Asklepieion` : 'Asklepieion';
   }, [hall]);
 
-  const chaptersBySection = useMemo(() => {
+  const tabletsByChapter = useMemo(() => {
     const m = {};
-    chapters.forEach(c => {
-      const key = c.section_id || 'unfiled';
+    tablets.forEach(c => {
+      const key = c.chapter_id || 'unfiled';
       (m[key] = m[key] || []).push(c);
     });
     return m;
-  }, [chapters]);
+  }, [tablets]);
 
   if (loading) return (
     <div className="min-h-screen bg-[#0E0C09] flex items-center justify-center">
@@ -77,11 +77,11 @@ export default function HallPage() {
     </div>
   );
 
-  const unfiled = chaptersBySection['unfiled'] || [];
+  const unfiled = tabletsByChapter['unfiled'] || [];
 
-  const ChapterRow = ({ ch }) => (
+  const TabletRow = ({ ch }) => (
     <Link
-      to={`/chapter/${ch.id}`}
+      to={`/tablet/${ch.id}`}
       className="flex items-center justify-between py-3 border-b border-[#1A1815] group gap-4"
     >
       <span className="flex items-center gap-3 min-w-0">
@@ -127,27 +127,27 @@ export default function HallPage() {
       </header>
 
       <div className="max-w-3xl mx-auto px-8 pb-32">
-        {sections.length === 0 && chapters.length === 0 ? (
+        {chapters.length === 0 && tablets.length === 0 ? (
           <p className="label-caps text-[#2A2620] tracking-widest text-center py-16">
             Nothing inscribed in this hall yet
           </p>
         ) : (
           <>
-            {sections.map((section, i) => {
-              const inSection = chaptersBySection[section.id] || [];
+            {chapters.map((chapter, i) => {
+              const inChapter = tabletsByChapter[chapter.id] || [];
               return (
-                <div key={section.id} className="mb-12">
+                <div key={chapter.id} className="mb-12">
                   <div className="flex items-baseline gap-4 mb-5">
                     <span className="font-heading text-[#C9A84C] text-sm">{GREEK_NUMERALS[i] || i + 1}</span>
-                    <h2 className="font-heading text-xl font-light">{section.title}</h2>
+                    <h2 className="font-heading text-xl font-light">{chapter.title}</h2>
                     <div className="h-px bg-[#1A1815] flex-1" />
                   </div>
 
-                  {inSection.length === 0 ? (
-                    <p className="label-caps text-[#2A2620] text-[9px] tracking-widest pl-9">No chapters yet</p>
+                  {inChapter.length === 0 ? (
+                    <p className="label-caps text-[#2A2620] text-[9px] tracking-widest pl-9">No tablets yet</p>
                   ) : (
                     <div className="flex flex-col pl-9">
-                      {inSection.map(ch => <ChapterRow key={ch.id} ch={ch} />)}
+                      {inChapter.map(ch => <TabletRow key={ch.id} ch={ch} />)}
                     </div>
                   )}
                 </div>
@@ -161,7 +161,7 @@ export default function HallPage() {
                   <div className="h-px bg-[#1A1815] flex-1" />
                 </div>
                 <div className="flex flex-col">
-                  {unfiled.map(ch => <ChapterRow key={ch.id} ch={ch} />)}
+                  {unfiled.map(ch => <TabletRow key={ch.id} ch={ch} />)}
                 </div>
               </div>
             )}
