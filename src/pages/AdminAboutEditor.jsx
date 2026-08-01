@@ -5,7 +5,7 @@ import { base44 } from '@/api/client';
 
 export default function AdminAboutEditor() {
   const [pageId, setPageId] = useState(null);
-  const [form, setForm] = useState({ title: '', body: '' });
+  const [form, setForm] = useState({ title: '', body: '', author_note: '' });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -17,7 +17,7 @@ export default function AdminAboutEditor() {
         const existing = rows[0];
         if (existing) {
           setPageId(existing.id);
-          setForm({ title: existing.title || '', body: existing.body || '' });
+          setForm({ title: existing.title || '', body: existing.body || '', author_note: existing.author_note || '' });
         }
       })
       .catch((err) => {
@@ -107,13 +107,25 @@ export default function AdminAboutEditor() {
           />
         </div>
 
-        <label className="label-caps text-[#3A3530] text-[9px] tracking-[0.2em] block mb-2">Body</label>
+        <label className="label-caps text-[#3A3530] text-[9px] tracking-[0.2em] block mb-2">Body — "Why This Exists"</label>
         <textarea
           value={form.body}
           onChange={e => setForm(f => ({ ...f, body: e.target.value }))}
           placeholder="Markdown supported — blank line for a new paragraph, ## for a heading, **bold**, *italic*."
           className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-4 py-4 focus:outline-none focus:border-[#3F8A66] transition-colors placeholder:text-[#2A2620] resize-none"
-          style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '1rem', lineHeight: '1.75', minHeight: '520px' }}
+          style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '1rem', lineHeight: '1.75', minHeight: '400px' }}
+        />
+
+        <label className="label-caps text-[#3A3530] text-[9px] tracking-[0.2em] block mb-2 mt-8">Author Note — "The Author"</label>
+        <p className="text-[#3A3530] text-xs mb-2" style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontStyle: 'italic' }}>
+          Shown as its own section, below a divider, on the live page.
+        </p>
+        <textarea
+          value={form.author_note}
+          onChange={e => setForm(f => ({ ...f, author_note: e.target.value }))}
+          placeholder="Your name, year of study, and a line or two about yourself. Markdown supported."
+          className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-4 py-4 focus:outline-none focus:border-[#3F8A66] transition-colors placeholder:text-[#2A2620] resize-none"
+          style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '1rem', lineHeight: '1.75', minHeight: '160px' }}
         />
       </div>
     </div>

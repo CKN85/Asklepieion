@@ -61,11 +61,34 @@ export default function About() {
         </div>
 
         {state.status === 'ready' && state.page && (
-          <div
-            className="tablet-body"
-            style={{ fontSize: '1.04rem' }}
-            dangerouslySetInnerHTML={{ __html: marked.parse(state.page.body || '') }}
-          />
+          <>
+            <div
+              className="tablet-body"
+              style={{ fontSize: '1.04rem' }}
+              dangerouslySetInnerHTML={{ __html: marked.parse(state.page.body || '') }}
+            />
+
+            {state.page.author_note && (
+              <>
+                <div className="w-16 h-px mx-auto my-16" style={{ background: '#2A2620' }} />
+
+                <div className="text-center mb-10">
+                  <div className="label-caps text-[9px] tracking-[0.3em]" style={{ color: '#3F8A66' }}>
+                    The Author
+                  </div>
+                  <h2 className="font-heading font-light mt-3" style={{ fontSize: '1.6rem' }}>
+                    Ἀσκληπιάδης
+                  </h2>
+                </div>
+
+                <div
+                  className="tablet-body"
+                  style={{ fontSize: '1.02rem' }}
+                  dangerouslySetInnerHTML={{ __html: marked.parse(state.page.author_note) }}
+                />
+              </>
+            )}
+          </>
         )}
 
         <p className="mt-14 text-center">
