@@ -15,7 +15,7 @@ export default function AdminRoute() {
   if (status === 'loading') {
     return (
       <div className="min-h-screen bg-[#0E0C09] flex items-center justify-center">
-        <div className="w-6 h-6 border border-[#3A3530] border-t-[#C9A84C] rounded-full animate-spin" />
+        <div className="w-6 h-6 border border-[#3A3530] border-t-[#3F8A66] rounded-full animate-spin" />
       </div>
     );
   }

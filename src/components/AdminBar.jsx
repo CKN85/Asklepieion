@@ -23,11 +23,11 @@ export default function AdminBar() {
   const tabletId = tabletMatch?.params?.tabletId;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-[#0E0C09]/95 backdrop-blur border-t border-[#C9A84C]/25">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-[#0E0C09]/95 backdrop-blur border-t border-[#3F8A66]/25">
       <div className="max-w-screen-xl mx-auto px-6 h-11 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3 min-w-0">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C] shrink-0" />
-          <span className="label-caps text-[#C9A84C] text-[9px] tracking-[0.2em] shrink-0">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#3F8A66] shrink-0" />
+          <span className="label-caps text-[#3F8A66] text-[9px] tracking-[0.2em] shrink-0">
             Admin view
           </span>
           {email && (
@@ -41,7 +41,7 @@ export default function AdminBar() {
           {tabletId && (
             <Link
               to={`/admin/tablets/${tabletId}/edit`}
-              className="flex items-center gap-1.5 label-caps text-[#C9A84C] text-[9px] tracking-[0.15em] hover:opacity-75 transition-opacity"
+              className="flex items-center gap-1.5 label-caps text-[#3F8A66] text-[9px] tracking-[0.15em] hover:opacity-75 transition-opacity"
             >
               <Pencil size={10} /> Edit this tablet
             </Link>
@@ -70,7 +70,7 @@ export default function AdminBar() {
 export function DraftBadge({ status }) {
   if (status === 'published') return null;
   return (
-    <span className="label-caps text-[7px] tracking-[0.15em] px-1.5 py-0.5 border border-[#C9A84C]/40 text-[#C9A84C] shrink-0">
+    <span className="label-caps text-[7px] tracking-[0.15em] px-1.5 py-0.5 border border-[#3F8A66]/40 text-[#3F8A66] shrink-0">
       Draft
     </span>
   );
@@ -80,8 +80,8 @@ export function DraftBadge({ status }) {
 export function DraftNotice({ status }) {
   if (status === 'published') return null;
   return (
-    <div className="flex items-center gap-2.5 px-4 py-2.5 border border-[#C9A84C]/30 bg-[#C9A84C]/5 mb-8">
-      <Eye size={11} className="text-[#C9A84C] shrink-0" />
+    <div className="flex items-center gap-2.5 px-4 py-2.5 border border-[#3F8A66]/30 bg-[#3F8A66]/5 mb-8">
+      <Eye size={11} className="text-[#3F8A66] shrink-0" />
       <span
         style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '0.82rem', color: '#A89880', fontStyle: 'italic' }}
       >

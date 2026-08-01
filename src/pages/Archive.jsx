@@ -89,7 +89,7 @@ export default function Archive() {
 
       <header className="pt-32 pb-16 px-8 border-b border-[#1A1815]">
         <div className="max-w-screen-xl mx-auto">
-          <div className="label-caps text-[#C9A84C] text-[9px] tracking-[0.3em] mb-4">Index &amp; Search</div>
+          <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.3em] mb-4">Index &amp; Search</div>
           <h1 className="font-heading font-light mb-8" style={{ fontSize: 'clamp(2.5rem, 6vw, 5rem)', letterSpacing: '-0.01em' }}>
             The Archive
           </h1>
@@ -101,13 +101,13 @@ export default function Archive() {
               placeholder="Search tablets, topics, disciplines..."
               value={query}
               onChange={e => setQuery(e.target.value)}
-              className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] pl-10 pr-4 py-3 focus:outline-none focus:border-[#C9A84C] transition-colors duration-200"
+              className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] pl-10 pr-4 py-3 focus:outline-none focus:border-[#3F8A66] transition-colors duration-200"
               style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '0.9rem' }}
             />
           </div>
 
           {isAdmin && draftCount > 0 && (
-            <p className="label-caps text-[#C9A84C] text-[8px] tracking-[0.2em] mt-4 opacity-70">
+            <p className="label-caps text-[#3F8A66] text-[8px] tracking-[0.2em] mt-4 opacity-70">
               Including {draftCount} unpublished {draftCount === 1 ? 'draft' : 'drafts'}
             </p>
           )}
@@ -125,7 +125,7 @@ export default function Archive() {
               onClick={() => setActiveHall(f.slug)}
               className={`flex items-center gap-2 px-4 py-2 border transition-all duration-200 label-caps text-[9px] tracking-[0.15em] ${
                 activeHall === f.slug
-                  ? 'border-[#C9A84C] text-[#C9A84C] bg-[#C9A84C]/5'
+                  ? 'border-[#3F8A66] text-[#3F8A66] bg-[#3F8A66]/5'
                   : 'border-[#2A2620] text-[#3A3530] hover:border-[#3A3530] hover:text-[#7A7268]'
               }`}
             >
@@ -137,7 +137,7 @@ export default function Archive() {
 
         {loading ? (
           <div className="flex items-center justify-center py-32">
-            <div className="w-6 h-6 border border-[#3A3530] border-t-[#C9A84C] rounded-full animate-spin" />
+            <div className="w-6 h-6 border border-[#3A3530] border-t-[#3F8A66] rounded-full animate-spin" />
           </div>
         ) : alphabet.length === 0 ? (
           <div className="text-center py-24">
@@ -168,7 +168,7 @@ export default function Archive() {
                       >
                         <div className="flex items-center gap-4 min-w-0">
                           {h && (
-                            <span className="font-heading text-[#C9A84C] text-lg shrink-0 w-6 opacity-60 group-hover:opacity-100 transition-opacity">
+                            <span className="font-heading text-[#3F8A66] text-lg shrink-0 w-6 opacity-60 group-hover:opacity-100 transition-opacity">
                               {HALL_LETTERS[hSlug] || h.greek_letter}
                             </span>
                           )}
@@ -192,7 +192,7 @@ export default function Archive() {
                               {tablet.reading_time_minutes} min
                             </span>
                           )}
-                          <span className="text-[#C9A84C] opacity-0 group-hover:opacity-60 transition-opacity">→</span>
+                          <span className="text-[#3F8A66] opacity-0 group-hover:opacity-60 transition-opacity">→</span>
                         </div>
                       </Link>
                     );

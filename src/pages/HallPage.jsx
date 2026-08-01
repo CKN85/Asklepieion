@@ -83,7 +83,7 @@ export default function HallPage() {
 
   if (loading) return (
     <div className="min-h-screen bg-[#0E0C09] flex items-center justify-center">
-      <div className="w-6 h-6 border border-[#3A3530] border-t-[#C9A84C] rounded-full animate-spin" />
+      <div className="w-6 h-6 border border-[#3A3530] border-t-[#3F8A66] rounded-full animate-spin" />
     </div>
   );
 
@@ -91,7 +91,7 @@ export default function HallPage() {
     <div className="min-h-screen bg-[#0E0C09] flex flex-col items-center justify-center gap-4">
       <span className="font-heading text-[#2A2620] text-5xl">⚕</span>
       <p className="label-caps text-[#3A3530] tracking-widest">No such hall</p>
-      <Link to="/" className="label-caps text-[#C9A84C] text-[9px] tracking-[0.2em] mt-2">← The Sanctuary</Link>
+      <Link to="/" className="label-caps text-[#3F8A66] text-[9px] tracking-[0.2em] mt-2">← The Sanctuary</Link>
     </div>
   );
 
@@ -117,7 +117,7 @@ export default function HallPage() {
             {ch.reading_time_minutes} min
           </span>
         )}
-        <span className="text-[#C9A84C] opacity-0 group-hover:opacity-60 transition-opacity">→</span>
+        <span className="text-[#3F8A66] opacity-0 group-hover:opacity-60 transition-opacity">→</span>
       </span>
     </Link>
   );
@@ -133,8 +133,8 @@ export default function HallPage() {
       </div>
 
       <header className="max-w-2xl mx-auto px-8 pt-14 pb-12 text-center">
-        <div className="w-16 h-16 mx-auto mb-7 border border-[#C9A84C]/40 rounded-full flex items-center justify-center">
-          <span className="font-heading text-[#C9A84C] text-2xl font-light">{hall.greek_letter}</span>
+        <div className="w-16 h-16 mx-auto mb-7 border border-[#3F8A66]/40 rounded-full flex items-center justify-center">
+          <span className="font-heading text-[#3F8A66] text-2xl font-light">{hall.greek_letter}</span>
         </div>
         <h1 className="font-heading font-light" style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', letterSpacing: '0.08em' }}>
           HALL OF {hall.name.toUpperCase()}
@@ -156,7 +156,7 @@ export default function HallPage() {
               return (
                 <div key={chapter.id} className="mb-12">
                   <div className="flex items-baseline gap-4 mb-5">
-                    <span className="font-heading text-[#C9A84C] text-sm">{GREEK_NUMERALS[i] || i + 1}</span>
+                    <span className="font-heading text-[#3F8A66] text-sm">{GREEK_NUMERALS[i] || i + 1}</span>
                     <h2 className="font-heading text-xl font-light">{chapter.title}</h2>
                     <div className="h-px bg-[#1A1815] flex-1" />
                   </div>

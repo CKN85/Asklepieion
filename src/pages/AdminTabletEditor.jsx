@@ -56,7 +56,7 @@ function CrossRefPicker({ onAdd, excludeId }) {
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="Search tablets to cross-reference..."
-          className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] pl-8 pr-4 py-2 text-sm focus:outline-none focus:border-[#C9A84C] transition-colors placeholder:text-[#2A2620]"
+          className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] pl-8 pr-4 py-2 text-sm focus:outline-none focus:border-[#3F8A66] transition-colors placeholder:text-[#2A2620]"
           style={{ fontFamily: 'Source Serif 4, Georgia, serif' }}
         />
       </div>
@@ -64,7 +64,7 @@ function CrossRefPicker({ onAdd, excludeId }) {
         <div className="absolute top-full left-0 right-0 bg-[#1A1815] border border-[#2A2620] z-20 max-h-60 overflow-y-auto">
           {loading ? (
             <div className="flex items-center justify-center py-4">
-              <div className="w-4 h-4 border border-[#3A3530] border-t-[#C9A84C] rounded-full animate-spin" />
+              <div className="w-4 h-4 border border-[#3A3530] border-t-[#3F8A66] rounded-full animate-spin" />
             </div>
           ) : results.map(ch => (
             <button key={ch.id} onClick={() => selectTablet(ch)}
@@ -183,7 +183,7 @@ export default function AdminTabletEditor() {
 
   if (loading) return (
     <div className="min-h-screen bg-[#0E0C09] flex items-center justify-center">
-      <div className="w-6 h-6 border border-[#3A3530] border-t-[#C9A84C] rounded-full animate-spin" />
+      <div className="w-6 h-6 border border-[#3A3530] border-t-[#3F8A66] rounded-full animate-spin" />
     </div>
   );
 
@@ -200,7 +200,7 @@ export default function AdminTabletEditor() {
           </span>
         </div>
         <div className="flex items-center gap-3">
-          {saved && <span className="label-caps text-[#C9A84C] text-[9px] tracking-[0.15em]">Saved ✓</span>}
+          {saved && <span className="label-caps text-[#3F8A66] text-[9px] tracking-[0.15em]">Saved ✓</span>}
           <button
             onClick={() => handleSave()}
             disabled={saving}
@@ -211,7 +211,7 @@ export default function AdminTabletEditor() {
           <button
             onClick={() => handleSave('published')}
             disabled={saving}
-            className="flex items-center gap-1.5 label-caps text-[#C9A84C] border border-[#C9A84C]/40 px-4 py-1.5 hover:bg-[#C9A84C]/10 transition-all text-[9px] tracking-[0.15em] disabled:opacity-40"
+            className="flex items-center gap-1.5 label-caps text-[#3F8A66] border border-[#3F8A66]/40 px-4 py-1.5 hover:bg-[#3F8A66]/10 transition-all text-[9px] tracking-[0.15em] disabled:opacity-40"
           >
             <Eye size={10} /> Publish
           </button>
@@ -234,7 +234,7 @@ export default function AdminTabletEditor() {
               <select
                 value={form.hall_id}
                 onChange={e => setForm(f => ({ ...f, hall_id: e.target.value, chapter_id: '' }))}
-                className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-3 py-2 text-sm focus:outline-none focus:border-[#C9A84C] transition-colors"
+                className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-3 py-2 text-sm focus:outline-none focus:border-[#3F8A66] transition-colors"
                 style={{ fontFamily: 'Source Serif 4, Georgia, serif' }}
               >
                 <option value="">Select Hall</option>
@@ -246,7 +246,7 @@ export default function AdminTabletEditor() {
               <select
                 value={form.chapter_id}
                 onChange={e => setForm(f => ({ ...f, chapter_id: e.target.value }))}
-                className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-3 py-2 text-sm focus:outline-none focus:border-[#C9A84C] transition-colors disabled:opacity-40"
+                className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-3 py-2 text-sm focus:outline-none focus:border-[#3F8A66] transition-colors disabled:opacity-40"
                 style={{ fontFamily: 'Source Serif 4, Georgia, serif' }}
                 disabled={!form.hall_id}
               >
@@ -261,7 +261,7 @@ export default function AdminTabletEditor() {
                 value={form.reading_time_minutes}
                 onChange={e => setForm(f => ({ ...f, reading_time_minutes: e.target.value }))}
                 placeholder="e.g. 25"
-                className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-3 py-2 text-sm focus:outline-none focus:border-[#C9A84C] transition-colors placeholder:text-[#2A2620]"
+                className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-3 py-2 text-sm focus:outline-none focus:border-[#3F8A66] transition-colors placeholder:text-[#2A2620]"
                 style={{ fontFamily: 'Source Serif 4, Georgia, serif' }}
               />
             </div>
@@ -273,7 +273,7 @@ export default function AdminTabletEditor() {
               value={form.title}
               onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
               placeholder="Tablet Title"
-              className="w-full bg-transparent border-0 border-b border-[#2A2620] text-[#E2DED0] px-0 py-3 focus:outline-none focus:border-[#C9A84C] transition-colors placeholder:text-[#2A2620]"
+              className="w-full bg-transparent border-0 border-b border-[#2A2620] text-[#E2DED0] px-0 py-3 focus:outline-none focus:border-[#3F8A66] transition-colors placeholder:text-[#2A2620]"
               style={{ fontFamily: 'Cormorant Garamond, Georgia, serif', fontSize: '2rem', fontWeight: 300 }}
             />
           </div>
@@ -282,20 +282,20 @@ export default function AdminTabletEditor() {
             value={form.body}
             onChange={e => setForm(f => ({ ...f, body: e.target.value }))}
             placeholder="Begin writing the tablet body here. Markdown supported — blank line for a new paragraph, ## for a heading, **bold**, *italic*, - for a list."
-            className="w-full bg-[#0E0C09] border border-[#2A2620] text-[#E2DED0] px-4 py-4 focus:outline-none focus:border-[#C9A84C] transition-colors placeholder:text-[#2A2620] resize-none"
+            className="w-full bg-[#0E0C09] border border-[#2A2620] text-[#E2DED0] px-4 py-4 focus:outline-none focus:border-[#3F8A66] transition-colors placeholder:text-[#2A2620] resize-none"
             style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '1rem', lineHeight: '1.75', minHeight: '600px' }}
           />
         </div>
 
         <aside className="w-80 shrink-0 border-l border-[#1A1815] overflow-y-auto px-6 py-10 hidden lg:block">
           <div className="mb-8">
-            <div className="label-caps text-[#C9A84C] text-[9px] tracking-[0.2em] mb-3">Status</div>
+            <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.2em] mb-3">Status</div>
             <div className="flex gap-2">
               {['draft', 'published'].map(s => (
                 <button
                   key={s}
                   onClick={() => setForm(f => ({ ...f, status: s }))}
-                  className={`label-caps text-[9px] px-3 py-1.5 border transition-all ${form.status === s ? 'border-[#C9A84C] text-[#C9A84C]' : 'border-[#2A2620] text-[#3A3530] hover:border-[#3A3530]'}`}
+                  className={`label-caps text-[9px] px-3 py-1.5 border transition-all ${form.status === s ? 'border-[#3F8A66] text-[#3F8A66]' : 'border-[#2A2620] text-[#3A3530] hover:border-[#3A3530]'}`}
                 >
                   {s}
                 </button>
@@ -304,7 +304,7 @@ export default function AdminTabletEditor() {
           </div>
 
           <div className="mb-8">
-            <div className="label-caps text-[#C9A84C] text-[9px] tracking-[0.2em] mb-3">Cross-References</div>
+            <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.2em] mb-3">Cross-References</div>
             <CrossRefPicker onAdd={ref => addRef('cross_references', ref)} excludeId={tabletId} />
             {form.cross_references.length > 0 && (
               <div className="mt-3 flex flex-col gap-2">
@@ -322,7 +322,7 @@ export default function AdminTabletEditor() {
           </div>
 
           <div className="mb-8">
-            <div className="label-caps text-[#C9A84C] text-[9px] tracking-[0.2em] mb-3">Related Reading Panel</div>
+            <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.2em] mb-3">Related Reading Panel</div>
             <CrossRefPicker onAdd={ref => addRef('related_reading', ref)} excludeId={tabletId} />
             {form.related_reading.length > 0 && (
               <div className="mt-3 flex flex-col gap-2">

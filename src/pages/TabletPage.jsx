@@ -56,7 +56,7 @@ export default function TabletPage() {
 
   if (loading) return (
     <div className="min-h-screen bg-[#0E0C09] flex items-center justify-center">
-      <div className="w-6 h-6 border border-[#3A3530] border-t-[#C9A84C] rounded-full animate-spin" />
+      <div className="w-6 h-6 border border-[#3A3530] border-t-[#3F8A66] rounded-full animate-spin" />
     </div>
   );
 
@@ -64,7 +64,7 @@ export default function TabletPage() {
     <div className="min-h-screen bg-[#0E0C09] flex flex-col items-center justify-center gap-4">
       <span className="font-heading text-[#2A2620] text-5xl">⚕</span>
       <p className="label-caps text-[#3A3530] tracking-widest">Tablet not found</p>
-      <Link to="/archive" className="label-caps text-[#C9A84C] text-[9px] tracking-[0.2em] mt-2">← The Archive</Link>
+      <Link to="/archive" className="label-caps text-[#3F8A66] text-[9px] tracking-[0.2em] mt-2">← The Archive</Link>
     </div>
   );
 
@@ -83,10 +83,10 @@ export default function TabletPage() {
           {hallSlug && (
             <Link
               to={`/hall/${hallSlug}`}
-              className="flex items-center gap-2 label-caps text-[#7A7268] hover:text-[#C9A84C] transition-colors duration-200 text-[9px] tracking-[0.2em]"
+              className="flex items-center gap-2 label-caps text-[#7A7268] hover:text-[#3F8A66] transition-colors duration-200 text-[9px] tracking-[0.2em]"
             >
               <ArrowLeft size={10} />
-              {hallMeta?.letter && <span className="text-[#C9A84C]">{hallMeta.letter}</span>}
+              {hallMeta?.letter && <span className="text-[#3F8A66]">{hallMeta.letter}</span>}
               {hall?.name}
             </Link>
           )}
@@ -102,7 +102,7 @@ export default function TabletPage() {
       <header className="max-w-screen-xl mx-auto px-8 pb-12 border-b border-[#1A1815]">
         <div className="max-w-3xl">
           {hallMeta && (
-            <div className="label-caps text-[#C9A84C] text-[9px] tracking-[0.3em] mb-4 opacity-70">
+            <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.3em] mb-4 opacity-70">
               Hall of {hall?.name} · {hallMeta.discipline}
             </div>
           )}
@@ -143,7 +143,7 @@ export default function TabletPage() {
           {/* Related reading — shown inline on narrow screens */}
           {hasRelated && (
             <div className="xl:hidden mt-16 pt-8 border-t border-[#1A1815]">
-              <div className="label-caps text-[#C9A84C] text-[9px] tracking-[0.25em] mb-6">Related Reading</div>
+              <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.25em] mb-6">Related Reading</div>
               <div className="flex flex-col gap-3">
                 {[...(tablet.related_reading || []), ...(tablet.cross_references || [])].map((ref, i) => (
                   <Link
@@ -157,7 +157,7 @@ export default function TabletPage() {
                         {ref.label || ref.tablet_title}
                       </div>
                     </div>
-                    <span className="text-[#C9A84C] opacity-0 group-hover:opacity-60 transition-opacity ml-4">→</span>
+                    <span className="text-[#3F8A66] opacity-0 group-hover:opacity-60 transition-opacity ml-4">→</span>
                   </Link>
                 ))}
               </div>

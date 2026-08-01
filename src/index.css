@@ -56,11 +56,11 @@
     margin-bottom: .5em;
   }
   .prose-sanctum a {
-    color: #C9A84C;
+    color: #3F8A66;
     text-decoration: none;
     border-bottom: 1px solid rgba(201,168,76,.3);
   }
-  .prose-sanctum a:hover { border-bottom-color: #C9A84C; }
+  .prose-sanctum a:hover { border-bottom-color: #3F8A66; }
   .prose-sanctum strong { color: #E2DED0; font-weight: 600; }
   .prose-sanctum em { font-style: italic; }
   .prose-sanctum ul, .prose-sanctum ol { padding-left: 1.4em; }
@@ -69,7 +69,7 @@
   .prose-sanctum li { margin-top: .5em; }
   .prose-sanctum li::marker { color: #7A7268; }
   .prose-sanctum blockquote {
-    border-left: 2px solid #C9A84C;
+    border-left: 2px solid #3F8A66;
     padding-left: 1.3em;
     font-style: italic;
     color: #A89880;
@@ -79,7 +79,7 @@
     background: #1A1815;
     padding: .1em .4em;
     font-size: .87em;
-    color: #C9A84C;
+    color: #3F8A66;
   }
   .prose-sanctum pre {
     background: #1A1815;
@@ -103,7 +103,7 @@
     text-transform: uppercase;
     font-size: .68rem;
     letter-spacing: .12em;
-    color: #C9A84C;
+    color: #3F8A66;
   }
   .prose-sanctum hr { border: 0; border-top: 1px solid #1A1815; margin: 2.5em 0; }
   .prose-sanctum img { max-width: 100%; height: auto; }
@@ -116,25 +116,70 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Floor plan on the homepage
+   Floor plan on the homepage — styled as an architectural blueprint: a
+   distinct dark-green field with pale technical linework, rather than just
+   shapes floating on the page background.
    --------------------------------------------------------------------------- */
 
-.temenos       { fill: none; stroke: #2A2620; stroke-width: 1; }
-.temenos-inner { fill: none; stroke: #1A1815; stroke-width: 1; }
-.corridor      { stroke: #2A2620; stroke-width: 1; stroke-dasharray: 2 4; }
+.blueprint-panel {
+  background: #0A1712;
+  border: 1px solid #1D3A2C;
+}
+
+.blueprint-grid-line { stroke: #1A3527; stroke-width: 0.5; }
+
+.temenos       { fill: none; stroke: #2E5C46; stroke-width: 1; }
+.temenos-inner { fill: none; stroke: #23432F; stroke-width: 1; }
+.corridor      { stroke: #2E5C46; stroke-width: 1; stroke-dasharray: 2 4; }
+
+.corner-mark   { stroke: #4E8A6C; stroke-width: 1; }
+
+.dimension-line { stroke: #3A6B52; stroke-width: 0.75; }
+.dimension-tick { stroke: #3A6B52; stroke-width: 0.75; }
+.dimension-label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 7.5px;
+  letter-spacing: .12em;
+  fill: #5C9678;
+  text-anchor: middle;
+}
+
+.center-mark { stroke: #2E5C46; stroke-width: 0.75; }
+
+.compass-mark { stroke: #4E8A6C; stroke-width: 1; fill: none; }
+.compass-label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 8px;
+  letter-spacing: .1em;
+  fill: #5C9678;
+  text-anchor: middle;
+}
+
+.title-block { stroke: #2E5C46; stroke-width: 0.75; fill: #0A1712; }
+.title-block-text {
+  font-family: 'Inter', system-ui, sans-serif;
+  fill: #5C9678;
+  letter-spacing: .1em;
+}
+.title-block-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  fill: #86BC9E;
+  letter-spacing: .16em;
+}
 
 .plan-wing { cursor: pointer; outline: none; }
 .plan-wing .plinth {
-  fill: #14120F;
-  stroke: #2A2620;
+  fill: #0F241A;
+  stroke: #2E5C46;
   stroke-width: 1.2;
   transition: fill .28s ease, stroke .28s ease;
 }
+.plan-wing .hatch { fill: url(#wallHatch); opacity: 0.5; pointer-events: none; }
 .plan-wing.is-gate .plinth { stroke-dasharray: 5 3; }
 .plan-wing .mark {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: 13px;
-  fill: #7A6438;
+  fill: #4E8A6C;
   text-anchor: middle;
   transition: fill .28s ease;
 }
@@ -150,7 +195,7 @@
   font-size: 8.5px;
   letter-spacing: .16em;
   text-transform: uppercase;
-  fill: #7A7268;
+  fill: #6B9E82;
   text-anchor: middle;
   transition: fill .28s ease;
 }
@@ -159,45 +204,45 @@
   font-size: 8px;
   letter-spacing: .18em;
   text-transform: uppercase;
-  fill: #C9A84C;
+  fill: #3F8A66;
   text-anchor: middle;
   opacity: 0;
   transition: opacity .28s ease;
 }
 .plan-wing:hover .plinth,
-.plan-wing:focus-visible .plinth { fill: #1C1913; stroke: #C9A84C; }
+.plan-wing:focus-visible .plinth { fill: #163726; stroke: #3F8A66; }
 .plan-wing:hover .mark,
-.plan-wing:focus-visible .mark   { fill: #C9A84C; }
+.plan-wing:focus-visible .mark   { fill: #3F8A66; }
 .plan-wing:hover .field,
 .plan-wing:focus-visible .field  { fill: #A89880; }
 .plan-wing:hover .enter,
 .plan-wing:focus-visible .enter  { opacity: 1; }
 
 .tholos-outer {
-  fill: #14120F;
-  stroke: #7A6438;
+  fill: #0F241A;
+  stroke: #4E8A6C;
   stroke-width: 1.2;
   transition: stroke .28s ease, fill .28s ease;
 }
-.tholos-ring  { fill: none; stroke: #2A2620; stroke-width: 1; }
+.tholos-ring  { fill: none; stroke: #2E5C46; stroke-width: 1; }
 .tholos-label {
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 10px;
   letter-spacing: .18em;
-  fill: #7A7268;
+  fill: #6B9E82;
   text-anchor: middle;
 }
 .tholos-sub {
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 8px;
   letter-spacing: .1em;
-  fill: #7A6438;
+  fill: #4E8A6C;
   text-anchor: middle;
 }
 .plan-wing.tholos:hover .tholos-outer,
-.plan-wing.tholos:focus-visible .tholos-outer { stroke: #C9A84C; fill: #1C1913; }
+.plan-wing.tholos:focus-visible .tholos-outer { stroke: #3F8A66; fill: #163726; }
 
-.plan-wing:focus-visible { outline: 1px solid #C9A84C; outline-offset: 4px; }
+.plan-wing:focus-visible { outline: 1px solid #3F8A66; outline-offset: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }

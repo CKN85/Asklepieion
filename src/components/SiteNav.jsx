@@ -29,7 +29,7 @@ export default function SiteNav() {
       >
         <div className="max-w-screen-xl mx-auto h-full flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <span className="font-heading text-[#C9A84C] text-lg">⚕</span>
+            <span className="font-heading text-[#3F8A66] text-lg">⚕</span>
             <span className="label-caps text-[#7A7268] group-hover:text-[#E2DED0] text-[9px] tracking-[0.25em] transition-colors">
               Asklepieion
             </span>
@@ -42,7 +42,7 @@ export default function SiteNav() {
                 to={link.to}
                 className={`label-caps text-[9px] tracking-[0.2em] transition-colors ${
                   pathname === link.to
-                    ? 'text-[#C9A84C]'
+                    ? 'text-[#3F8A66]'
                     : 'text-[#3A3530] hover:text-[#7A7268]'
                 }`}
               >

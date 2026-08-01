@@ -4,16 +4,17 @@ import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
 
 const WINGS = [
-  { slug: 'trikka',    letter: 'Α', name: 'TRIKKA',    field: 'Anatomy',        x: 320, y: 55,  w: 160, h: 120 },
-  { slug: 'pergamon',  letter: 'Δ', name: 'PERGAMON',  field: 'Histopathology', x: 585, y: 240, w: 150, h: 120 },
-  { slug: 'epidaurus', letter: 'Β', name: 'EPIDAURUS', field: 'Physiology',     x: 320, y: 410, w: 160, h: 115 },
-  { slug: 'kos',       letter: 'Γ', name: 'KOS',       field: 'Biochemistry',   x: 65,  y: 240, w: 150, h: 120 },
+  { slug: 'trikka',    letter: 'Α', name: 'TRIKKA',    field: 'Anatomy',        x: 340, y: 95,  w: 160, h: 120 },
+  { slug: 'pergamon',  letter: 'Δ', name: 'PERGAMON',  field: 'Histopathology', x: 605, y: 280, w: 150, h: 120 },
+  { slug: 'epidaurus', letter: 'Β', name: 'EPIDAURUS', field: 'Physiology',     x: 340, y: 450, w: 160, h: 115 },
+  { slug: 'kos',       letter: 'Γ', name: 'KOS',       field: 'Biochemistry',   x: 85,  y: 280, w: 150, h: 120 },
 ];
 
-const GATE = { slug: 'athens', letter: 'Ε', name: 'ATHENS', field: 'Ethics', x: 320, y: 545, w: 160, h: 56 };
+const GATE = { slug: 'athens', letter: 'Ε', name: 'ATHENS', field: 'Ethics', x: 340, y: 585, w: 160, h: 56 };
 
 function Wing({ wing, gate, onEnter }) {
   const cx = wing.x + wing.w / 2;
+  const cy = wing.y + wing.h / 2;
   const rows = gate
     ? { mark: wing.y + 17, name: wing.y + 35, field: wing.y + 49 }
     : { mark: wing.y + 27, name: wing.y + 57, field: wing.y + 77, enter: wing.y + wing.h - 15 };
@@ -31,6 +32,9 @@ function Wing({ wing, gate, onEnter }) {
     >
       <title>{`${wing.name} — ${wing.field}`}</title>
       <rect className="plinth" x={wing.x} y={wing.y} width={wing.w} height={wing.h} />
+      <rect className="hatch" x={wing.x} y={wing.y} width={wing.w} height={wing.h} />
+      <line className="center-mark" x1={cx} y1={cy - 5} x2={cx} y2={cy + 5} />
+      <line className="center-mark" x1={cx - 5} y1={cy} x2={cx + 5} y2={cy} />
       <text className="mark" x={cx} y={rows.mark}>{wing.letter}</text>
       <text className="name" x={cx} y={rows.name}>{wing.name}</text>
       <text className="field" x={cx} y={rows.field}>{wing.field}</text>
@@ -48,7 +52,7 @@ export default function Home() {
       <SiteNav />
 
       <header className="pt-36 pb-4 px-8 text-center">
-        <div className="label-caps text-[#C9A84C] text-[9px] tracking-[0.3em] mb-5">Sanctuary of Study</div>
+        <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.3em] mb-5">The Sanctuary</div>
         <h1 className="font-heading font-light" style={{ fontSize: 'clamp(2.75rem, 7vw, 5rem)', letterSpacing: '0.06em' }}>
           ASKLEPIEION
         </h1>
@@ -66,44 +70,97 @@ export default function Home() {
       </header>
 
       <div className="max-w-3xl mx-auto px-8 mt-8">
-        <svg viewBox="0 0 800 640" className="w-full h-auto" aria-label="Plan of the Asklepieion — choose a hall">
-          <rect className="temenos" x="30" y="30" width="740" height="540" />
-          <rect className="temenos-inner" x="44" y="44" width="712" height="512" />
+        <div className="blueprint-panel p-4 sm:p-6">
+          <svg viewBox="0 0 840 700" className="w-full h-auto" aria-label="Plan of the Asklepieion — choose a hall">
+            <defs>
+              <pattern id="blueGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+                <path d="M 24 0 L 0 0 0 24" className="blueprint-grid-line" fill="none" />
+              </pattern>
+              <pattern id="wallHatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <line x1="0" y1="0" x2="0" y2="5" stroke="#2E5C46" strokeWidth="1" />
+              </pattern>
+            </defs>
 
-          <line className="corridor" x1="400" y1="175" x2="400" y2="242" />
-          <line className="corridor" x1="400" y1="358" x2="400" y2="410" />
-          <line className="corridor" x1="215" y1="300" x2="342" y2="300" />
-          <line className="corridor" x1="458" y1="300" x2="585" y2="300" />
+            {/* drafting grid, confined to the sanctuary interior */}
+            <rect x="64" y="84" width="712" height="512" fill="url(#blueGrid)" />
 
-          <g
-            className="plan-wing tholos"
-            role="link"
-            tabIndex={0}
-            aria-label="The Archive — index and search"
-            onClick={() => navigate('/archive')}
-            onKeyDown={e => {
-              if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/archive'); }
-            }}
-          >
-            <title>The Archive — index &amp; search</title>
-            <circle className="tholos-outer" cx="400" cy="300" r="58" />
-            <circle className="tholos-ring" cx="400" cy="300" r="42" />
-            <circle className="tholos-ring" cx="400" cy="300" r="26" />
-            <text className="tholos-label" x="400" y="298">ARCHIVE</text>
-            <text className="tholos-sub" x="400" y="313">INDEX &amp; SEARCH</text>
-          </g>
+            {/* sanctuary walls */}
+            <rect className="temenos" x="50" y="70" width="740" height="540" />
+            <rect className="temenos-inner" x="64" y="84" width="712" height="512" />
 
-          {WINGS.map(w => <Wing key={w.slug} wing={w} onEnter={enter} />)}
-          <Wing wing={GATE} gate onEnter={enter} />
-        </svg>
+            {/* corner registration marks */}
+            {[[50, 70, 1, 1], [790, 70, -1, 1], [50, 610, 1, -1], [790, 610, -1, -1]].map(([cx, cy, dx, dy], i) => (
+              <g key={i} className="corner-mark">
+                <line x1={cx} y1={cy} x2={cx + 14 * dx} y2={cy} />
+                <line x1={cx} y1={cy} x2={cx} y2={cy + 14 * dy} />
+              </g>
+            ))}
+
+            {/* dimension lines */}
+            <g className="dimension-line">
+              <line x1="50" y1="40" x2="790" y2="40" />
+              <line className="dimension-tick" x1="50" y1="34" x2="50" y2="46" />
+              <line className="dimension-tick" x1="790" y1="34" x2="790" y2="46" />
+            </g>
+            <text className="dimension-label" x="420" y="28">120 ΠΟΔΕΣ</text>
+
+            <g className="dimension-line">
+              <line x1="25" y1="70" x2="25" y2="610" />
+              <line className="dimension-tick" x1="19" y1="70" x2="31" y2="70" />
+              <line className="dimension-tick" x1="19" y1="610" x2="31" y2="610" />
+            </g>
+            <text className="dimension-label" x="16" y="340" transform="rotate(-90 16 340)">88 ΠΟΔΕΣ</text>
+
+            {/* compass mark */}
+            <g transform="translate(150, 150)">
+              <line className="compass-mark" x1="0" y1="14" x2="0" y2="-14" />
+              <path className="compass-mark" d="M -4 -8 L 0 -16 L 4 -8" fill="none" />
+              <text className="compass-label" x="0" y="28">N</text>
+            </g>
+
+            {/* sacred ways from each wing to the tholos */}
+            <line className="corridor" x1="420" y1="215" x2="420" y2="282" />
+            <line className="corridor" x1="420" y1="398" x2="420" y2="450" />
+            <line className="corridor" x1="235" y1="340" x2="362" y2="340" />
+            <line className="corridor" x1="478" y1="340" x2="605" y2="340" />
+
+            {/* the tholos — the Archive at the centre */}
+            <g
+              className="plan-wing tholos"
+              role="link"
+              tabIndex={0}
+              aria-label="The Archive — index and search"
+              onClick={() => navigate('/archive')}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/archive'); }
+              }}
+            >
+              <title>The Archive — index &amp; search</title>
+              <circle className="tholos-outer" cx="420" cy="340" r="58" />
+              <circle className="tholos-ring" cx="420" cy="340" r="42" />
+              <circle className="tholos-ring" cx="420" cy="340" r="26" />
+              <line className="center-mark" x1="420" y1="332" x2="420" y2="348" />
+              <line className="center-mark" x1="412" y1="340" x2="428" y2="340" />
+              <text className="tholos-label" x="420" y="338">ARCHIVE</text>
+              <text className="tholos-sub" x="420" y="353">INDEX &amp; SEARCH</text>
+            </g>
+
+            {WINGS.map(w => <Wing key={w.slug} wing={w} onEnter={enter} />)}
+            <Wing wing={GATE} gate onEnter={enter} />
+
+            {/* title block */}
+            <g>
+              <rect className="title-block" x="600" y="558" width="190" height="44" />
+              <line className="dimension-line" x1="600" y1="580" x2="790" y2="580" />
+              <text className="title-block-heading" x="612" y="574" fontSize="11">ASKLEPIEION</text>
+              <text className="title-block-text" x="612" y="594" fontSize="7">TEMENOS PLAN — Α ΕΩΣ Ε</text>
+            </g>
+          </svg>
+        </div>
       </div>
 
-      <p className="label-caps text-[#3A3530] text-[9px] tracking-[0.25em] text-center mt-8">
-        Choose a hall to enter
-      </p>
-
       <section className="max-w-xl mx-auto px-8 py-24 text-center">
-        <div className="label-caps text-[#C9A84C] text-[9px] tracking-[0.3em] mb-4">For Asclepiads</div>
+        <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.3em] mb-4">For Asclepiads</div>
         <h2 className="font-heading text-2xl font-light mb-5" style={{ letterSpacing: '0.06em' }}>READ IN FULL</h2>
         <p style={{ fontFamily: 'Source Serif 4, Georgia, serif', color: '#A89880', lineHeight: '1.8' }}>
           Most texts summarise, then send you elsewhere for the rest. The

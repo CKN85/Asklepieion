@@ -5,7 +5,7 @@ function RefGroup({ heading, refs }) {
   if (!refs || refs.length === 0) return null;
   return (
     <div className="mb-10">
-      <div className="label-caps text-[#C9A84C] text-[9px] tracking-[0.25em] mb-5">{heading}</div>
+      <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.25em] mb-5">{heading}</div>
       <div className="flex flex-col">
         {refs.map((ref, i) => (
           <Link

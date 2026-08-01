@@ -95,18 +95,18 @@ export default function AdminHalls() {
           <span className="text-[#1A1815]">/</span>
           <span className="label-caps text-[#7A7268] text-[9px] tracking-[0.15em]">Halls &amp; Chapters</span>
         </div>
-        <Link to="/admin/tablets/new" className="flex items-center gap-1.5 label-caps text-[#C9A84C] text-[9px] tracking-[0.15em] border border-[#C9A84C]/40 px-4 py-1.5 hover:bg-[#C9A84C]/10 transition-all">
+        <Link to="/admin/tablets/new" className="flex items-center gap-1.5 label-caps text-[#3F8A66] text-[9px] tracking-[0.15em] border border-[#3F8A66]/40 px-4 py-1.5 hover:bg-[#3F8A66]/10 transition-all">
           <Plus size={10} /> New Tablet
         </Link>
       </div>
 
       <div className="max-w-3xl mx-auto px-8 py-16">
-        <div className="label-caps text-[#C9A84C] text-[9px] tracking-[0.3em] mb-3">Content Structure</div>
+        <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.3em] mb-3">Content Structure</div>
         <h1 className="font-heading text-4xl font-light mb-12">Halls &amp; Chapters</h1>
 
         {loading ? (
           <div className="flex items-center justify-center py-24">
-            <div className="w-6 h-6 border border-[#3A3530] border-t-[#C9A84C] rounded-full animate-spin" />
+            <div className="w-6 h-6 border border-[#3A3530] border-t-[#3F8A66] rounded-full animate-spin" />
           </div>
         ) : (
           <div className="flex flex-col gap-1">
@@ -121,7 +121,7 @@ export default function AdminHalls() {
                     onClick={() => setOpenHall(isOpen ? null : hall.id)}
                   >
                     <div className="flex items-center gap-4">
-                      <span className="font-heading text-2xl text-[#2A2620] group-hover:text-[#C9A84C] transition-colors" style={{ fontWeight: 300 }}>
+                      <span className="font-heading text-2xl text-[#2A2620] group-hover:text-[#3F8A66] transition-colors" style={{ fontWeight: 300 }}>
                         {hall.greek_letter}
                       </span>
                       <div>
@@ -148,11 +148,11 @@ export default function AdminHalls() {
                                   if (e.key === 'Enter') saveEditChapter(chapter.id);
                                   if (e.key === 'Escape') setEditingChapter(null);
                                 }}
-                                className="flex-1 bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-3 py-1.5 text-sm focus:outline-none focus:border-[#C9A84C]"
+                                className="flex-1 bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-3 py-1.5 text-sm focus:outline-none focus:border-[#3F8A66]"
                                 style={{ fontFamily: 'Source Serif 4, Georgia, serif' }}
                                 autoFocus
                               />
-                              <button onClick={() => saveEditChapter(chapter.id)} className="text-[#C9A84C] hover:opacity-80"><Check size={13} /></button>
+                              <button onClick={() => saveEditChapter(chapter.id)} className="text-[#3F8A66] hover:opacity-80"><Check size={13} /></button>
                               <button onClick={() => setEditingChapter(null)} className="text-[#3A3530] hover:text-[#7A7268]"><X size={13} /></button>
                             </div>
                           ) : (
@@ -182,11 +182,11 @@ export default function AdminHalls() {
                               if (e.key === 'Escape') setAddingChapter(null);
                             }}
                             placeholder="Chapter title..."
-                            className="flex-1 bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-3 py-1.5 text-sm focus:outline-none focus:border-[#C9A84C] placeholder:text-[#2A2620]"
+                            className="flex-1 bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-3 py-1.5 text-sm focus:outline-none focus:border-[#3F8A66] placeholder:text-[#2A2620]"
                             style={{ fontFamily: 'Source Serif 4, Georgia, serif' }}
                             autoFocus
                           />
-                          <button onClick={() => addChapter(hall.id)} className="label-caps text-[#C9A84C] text-[9px] px-3 py-1.5 border border-[#C9A84C]/40 hover:bg-[#C9A84C]/10 transition-all">Add</button>
+                          <button onClick={() => addChapter(hall.id)} className="label-caps text-[#3F8A66] text-[9px] px-3 py-1.5 border border-[#3F8A66]/40 hover:bg-[#3F8A66]/10 transition-all">Add</button>
                           <button onClick={() => setAddingChapter(null)} className="text-[#3A3530] hover:text-[#7A7268]"><X size={13} /></button>
                         </div>
                       ) : (

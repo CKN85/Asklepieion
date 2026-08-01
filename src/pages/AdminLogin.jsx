@@ -32,7 +32,7 @@ export default function AdminLogin() {
 
       <div className="relative z-10 w-full max-w-sm">
         <div className="text-center mb-10">
-          <div className="font-heading text-[#C9A84C] text-4xl mb-3">⚕</div>
+          <div className="font-heading text-[#3F8A66] text-4xl mb-3">⚕</div>
           <div className="font-heading text-[#E2DED0] text-2xl font-light mb-1">The Scribe's Chamber</div>
           <div className="label-caps text-[#3A3530] text-[9px] tracking-[0.25em]">Asklepieion · Admin</div>
         </div>
@@ -46,7 +46,7 @@ export default function AdminLogin() {
               onChange={e => setEmail(e.target.value)}
               required
               autoComplete="username"
-              className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-4 py-3 focus:outline-none focus:border-[#C9A84C] transition-colors placeholder:text-[#2A2620]"
+              className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-4 py-3 focus:outline-none focus:border-[#3F8A66] transition-colors placeholder:text-[#2A2620]"
               style={{ fontFamily: 'Source Serif 4, Georgia, serif' }}
             />
           </div>
@@ -58,7 +58,7 @@ export default function AdminLogin() {
               onChange={e => setPassword(e.target.value)}
               required
               autoComplete="current-password"
-              className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-4 py-3 focus:outline-none focus:border-[#C9A84C] transition-colors"
+              className="w-full bg-[#1A1815] border border-[#2A2620] text-[#E2DED0] px-4 py-3 focus:outline-none focus:border-[#3F8A66] transition-colors"
               style={{ fontFamily: 'Source Serif 4, Georgia, serif' }}
             />
           </div>
@@ -74,7 +74,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full label-caps text-[#C9A84C] border border-[#C9A84C]/40 py-3 hover:bg-[#C9A84C]/10 transition-all duration-200 text-[10px] tracking-[0.25em] disabled:opacity-40"
+            className="w-full label-caps text-[#3F8A66] border border-[#3F8A66]/40 py-3 hover:bg-[#3F8A66]/10 transition-all duration-200 text-[10px] tracking-[0.25em] disabled:opacity-40"
           >
             {loading ? 'Entering...' : 'Enter'}
           </button>
