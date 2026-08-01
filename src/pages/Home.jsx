@@ -88,12 +88,28 @@ export default function Home() {
         <h1 className="font-heading font-light" style={{ fontSize: 'clamp(3.5rem, 10vw, 7.5rem)', letterSpacing: '0.06em' }}>
           ASKLEPIEION
         </h1>
-        <p style={{ fontFamily: 'Source Serif 4, Georgia, serif', color: '#7A7268', fontStyle: 'italic' }} className="mt-3">
-          Ἀσκληπιεῖον
-        </p>
-        <p className="label-caps mt-6" style={{ color: '#6B9E82', fontSize: '10px', letterSpacing: '0.28em' }}>
-          For Asclepiads
-        </p>
+
+        <div className="flex items-center justify-center gap-5 mt-5">
+          <span style={{ fontFamily: 'Source Serif 4, Georgia, serif', color: '#7A7268', fontStyle: 'italic', fontSize: '1rem' }}>
+            Ἀσκληπιεῖον
+          </span>
+          <span aria-hidden="true" style={{ width: '1px', height: '14px', background: '#2A2620' }} />
+          <span className="label-caps" style={{ color: '#6B9E82', fontSize: '10px', letterSpacing: '0.28em' }}>
+            For Asclepiads
+          </span>
+        </div>
+
+        <div className="mt-10">
+          <p className="font-heading" style={{ fontSize: '1.05rem', color: '#6B9E82', fontWeight: 400 }}>
+            Ὁ βίος βραχύς, ἡ δὲ τέχνη μακρή
+          </p>
+          <p
+            className="mt-1.5"
+            style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontStyle: 'italic', color: '#7A7268', fontSize: '0.9rem' }}
+          >
+            "Life is short, the art is long."
+          </p>
+        </div>
       </header>
 
       <div className="max-w-screen-xl mx-auto px-8 mt-8">
