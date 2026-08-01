@@ -87,26 +87,33 @@ export default function Home() {
         <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.3em] mb-5">The Sanctuary</div>
         <h1 className="font-heading font-light" style={{ fontSize: 'clamp(3.5rem, 10vw, 7.5rem)', letterSpacing: '0.06em' }}>
           ASKLE
-          <svg
-            viewBox="0 0 58 96"
-            style={{ width: '0.44em', height: '0.72em', display: 'inline-block', verticalAlign: 'baseline' }}
-            aria-hidden="true"
-          >
-            {/* The stem — the staff. Same colour as the surrounding letters,
-                so it reads as part of the word first. */}
-            <rect x="10" y="2" width="8" height="94" fill="currentColor" />
-            {/* The serpent — one simple curve forming the P's bowl, with a
-                short tail continuing to wind below it. */}
-            <path
-              d="M20,6 C36,3 47,13 44,24 C41,35 27,40 18,37 C11,41 14,49 21,47"
-              fill="none"
-              stroke="#3F8A66"
-              strokeWidth="4"
-              strokeLinecap="round"
-            />
-            <ellipse cx="21" cy="5" rx="4.2" ry="3.2" fill="#3F8A66" />
-            <circle cx="22.5" cy="4" r="0.9" fill="#14120F" />
-          </svg>
+          <span style={{ position: 'relative', display: 'inline-block' }}>
+            P
+            <svg
+              viewBox="0 0 20 100"
+              style={{
+                position: 'absolute',
+                left: '6%',
+                top: '2%',
+                width: '34%',
+                height: '96%',
+                pointerEvents: 'none',
+              }}
+              aria-hidden="true"
+            >
+              {/* The staff. */}
+              <line x1="10" y1="4" x2="10" y2="96" stroke="#3F8A66" strokeWidth="2.4" strokeLinecap="round" />
+              {/* A single serpent winding the length of it. */}
+              <path
+                d="M10,10 C19,17 2,27 10,36 C18,45 2,55 10,64 C18,73 2,83 10,90"
+                fill="none"
+                stroke="#3F8A66"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+              />
+              <ellipse cx="10" cy="6" rx="3.2" ry="2.4" fill="#3F8A66" />
+            </svg>
+          </span>
           IEION
         </h1>
 
