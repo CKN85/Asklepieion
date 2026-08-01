@@ -38,7 +38,6 @@ export default function HallPage() {
 
     const load = async () => {
       setLoading(true);
-      window.scrollTo(0, 0);
 
       let h = null;
       try {

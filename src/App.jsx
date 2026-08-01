@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import ScrollToTop from '@/components/ScrollToTop';
 
 import Home from '@/pages/Home';
 import HallPage from '@/pages/HallPage';
@@ -17,7 +18,9 @@ import AdminAboutEditor from '@/pages/AdminAboutEditor';
 
 export default function App() {
   return (
-    <Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
       {/* Public */}
       <Route path="/" element={<Home />} />
       <Route path="/hall/:hallSlug" element={<HallPage />} />
@@ -37,6 +40,7 @@ export default function App() {
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+      </Routes>
+    </>
   );
 }

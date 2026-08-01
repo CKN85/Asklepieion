@@ -59,15 +59,25 @@ export default function SiteNav() {
             })}
           </div>
 
-          <Link
-            to="/archive"
-            className={`flex items-center gap-1.5 label-caps text-[9px] tracking-[0.2em] transition-colors shrink-0 ${
-              pathname === '/archive' ? 'text-[#3F8A66]' : 'text-[#7A7268] hover:text-[#E2DED0]'
-            }`}
-          >
-            <Search size={11} />
-            Archive
-          </Link>
+          <div className="flex items-center gap-5 shrink-0">
+            <Link
+              to="/archive"
+              className={`flex items-center gap-1.5 label-caps text-[9px] tracking-[0.2em] transition-colors ${
+                pathname === '/archive' ? 'text-[#3F8A66]' : 'text-[#7A7268] hover:text-[#E2DED0]'
+              }`}
+            >
+              <Search size={11} />
+              Archive
+            </Link>
+            <Link
+              to="/about"
+              className={`label-caps text-[9px] tracking-[0.2em] transition-colors ${
+                pathname === '/about' ? 'text-[#3F8A66]' : 'text-[#7A7268] hover:text-[#E2DED0]'
+              }`}
+            >
+              About
+            </Link>
+          </div>
         </div>
       </nav>
 
