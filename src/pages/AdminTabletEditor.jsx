@@ -281,7 +281,7 @@ export default function AdminTabletEditor() {
           <textarea
             value={form.body}
             onChange={e => setForm(f => ({ ...f, body: e.target.value }))}
-            placeholder="Begin writing the tablet body here. HTML is supported."
+            placeholder="Begin writing the tablet body here. Markdown supported — blank line for a new paragraph, ## for a heading, **bold**, *italic*, - for a list."
             className="w-full bg-[#0E0C09] border border-[#2A2620] text-[#E2DED0] px-4 py-4 focus:outline-none focus:border-[#C9A84C] transition-colors placeholder:text-[#2A2620] resize-none"
             style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '1rem', lineHeight: '1.75', minHeight: '600px' }}
           />

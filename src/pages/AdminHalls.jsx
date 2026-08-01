@@ -50,24 +50,39 @@ export default function AdminHalls() {
   const addChapter = async (hallId) => {
     const title = (newChapterTitle[hallId] || '').trim();
     if (!title) return;
-    const existing = chaptersForHall(hallId);
-    await base44.entities.Chapter.create({ title, hall_id: hallId, order: existing.length + 1 });
-    setNewChapterTitle(prev => ({ ...prev, [hallId]: '' }));
-    setAddingChapter(null);
-    setChapters(await base44.entities.Chapter.list());
+    try {
+      const existing = chaptersForHall(hallId);
+      await base44.entities.Chapter.create({ title, hall_id: hallId, order: existing.length + 1 });
+      setNewChapterTitle(prev => ({ ...prev, [hallId]: '' }));
+      setAddingChapter(null);
+      setChapters(await base44.entities.Chapter.list());
+    } catch (err) {
+      console.error(err);
+      window.alert(`Could not create that chapter: ${err?.message || 'unknown error'}.`);
+    }
   };
 
   const deleteChapter = async (id) => {
     if (!window.confirm('Delete this chapter? Tablets filed under it will remain, but lose their chapter.')) return;
-    await base44.entities.Chapter.delete(id);
-    setChapters(prev => prev.filter(s => s.id !== id));
+    try {
+      await base44.entities.Chapter.delete(id);
+      setChapters(prev => prev.filter(s => s.id !== id));
+    } catch (err) {
+      console.error(err);
+      window.alert(`Could not delete this chapter: ${err?.message || 'unknown error'}. Nothing was changed.`);
+    }
   };
 
   const saveEditChapter = async (id) => {
     if (!editChapterTitle.trim()) return;
-    await base44.entities.Chapter.update(id, { title: editChapterTitle.trim() });
-    setChapters(prev => prev.map(s => (s.id === id ? { ...s, title: editChapterTitle.trim() } : s)));
-    setEditingChapter(null);
+    try {
+      await base44.entities.Chapter.update(id, { title: editChapterTitle.trim() });
+      setChapters(prev => prev.map(s => (s.id === id ? { ...s, title: editChapterTitle.trim() } : s)));
+      setEditingChapter(null);
+    } catch (err) {
+      console.error(err);
+      window.alert(`Could not save that title: ${err?.message || 'unknown error'}.`);
+    }
   };
 
   return (
