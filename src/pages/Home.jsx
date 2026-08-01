@@ -87,26 +87,56 @@ export default function Home() {
         <div className="label-caps text-[#3F8A66] text-[9px] tracking-[0.3em] mb-5">The Sanctuary</div>
         <h1 className="font-heading font-light" style={{ fontSize: 'clamp(3.5rem, 10vw, 7.5rem)', letterSpacing: '0.06em' }}>
           ASKLE
-          <span style={{ position: 'relative', display: 'inline-block' }}>
+          <span style={{ position: 'relative', display: 'inline-block', lineHeight: '1em' }}>
             P
+            {/* The Rod of Asclepius, fused with the P — its stem is the staff.
+                Geometry is in Cormorant Garamond glyph units (1000/em, baseline
+                at y=1000): the P's stem spans x 133–186, cap top y=372. The svg
+                is baseline-anchored: with line-height 1em the span box baseline
+                sits 0.1815em above the box bottom ((descent 287 − half-leading
+                105.5) / 1000), so bottom:'0.1815em' pins svg y=1000 to the
+                baseline and everything lands on the stem at any font size. */}
             <svg
-              viewBox="0 0 40 40"
+              viewBox="0 0 540 1000"
               style={{
                 position: 'absolute',
-                left: '38%',
-                top: '18%',
-                width: '26%',
-                height: '26%',
+                left: 0,
+                bottom: '0.1815em',
+                width: '0.54em',
+                height: '1em',
                 pointerEvents: 'none',
                 overflow: 'visible',
               }}
               aria-hidden="true"
             >
-              {/* The Tholos — the same concentric rotunda that sits at the
-                  centre of the sanctuary plan, tucked into the P's counter. */}
-              <circle cx="20" cy="20" r="17" fill="none" stroke="#3F8A66" strokeWidth="2.4" opacity="0.9" />
-              <circle cx="20" cy="20" r="10" fill="none" stroke="#3F8A66" strokeWidth="1.8" opacity="0.65" />
-              <circle cx="20" cy="20" r="3.4" fill="#3F8A66" opacity="0.85" />
+              <g fill="currentColor" stroke="none">
+                {/* pommel + upper staff, rising out of the stem */}
+                <circle cx="159.5" cy="146" r="42" />
+                <rect x="138" y="160" width="43" height="240" />
+                {/* head, crossing the staff just under the pommel */}
+                <path d="M 78 246 Q 66 234 78 222 Q 100 208 128 208 Q 175 208 205 218 Q 220 223 221 230 Q 221 237 206 241 Q 172 250 128 250 Q 100 250 78 246 Z" />
+              </g>
+              <g fill="none" stroke="currentColor">
+                {/* tapered tail, flicking out at the base */}
+                <path strokeWidth="22" strokeLinecap="round" d="M 35 972 C 60 972, 88 958, 112 938" />
+                {/* the serpent — four crossings of the stem, baseline to neck */}
+                <path
+                  strokeWidth="44"
+                  strokeLinecap="round"
+                  d="M 100 940
+                     C 132 920, 152 905, 168 878
+                     C 215 838, 300 835, 300 790
+                     C 300 745, 230 726, 159.5 700
+                     C 89 674, 20 655, 20 610
+                     C 20 565, 89 546, 159.5 520
+                     C 230 494, 300 475, 300 430
+                     C 300 385, 230 366, 159.5 340
+                     C 108 320, 55 312, 55 280
+                     C 55 256, 62 246, 72 240"
+                />
+                {/* forked tongue */}
+                <path strokeWidth="7" strokeLinecap="round" d="M 221 228 C 242 224, 254 220, 268 213 M 268 213 L 282 204 M 268 213 L 280 221" />
+              </g>
             </svg>
           </span>
           IEION
