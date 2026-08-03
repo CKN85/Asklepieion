@@ -40,6 +40,7 @@ create table if not exists tablets (
   reading_time_minutes  integer,
   cross_references      jsonb default '[]'::jsonb,
   related_reading       jsonb default '[]'::jsonb,
+  "order"               integer default 0,      -- manual drag order within a Hall/Chapter
   created_date          timestamptz default now(),
   updated_date          timestamptz default now()
 );
@@ -47,6 +48,7 @@ create table if not exists tablets (
 create index if not exists tablets_hall_idx    on tablets(hall_id);
 create index if not exists tablets_chapter_idx on tablets(chapter_id);
 create index if not exists tablets_status_idx  on tablets(status);
+create index if not exists tablets_order_idx   on tablets(hall_id, chapter_id, "order");
 
 -- Admin-editable static pages (About, and any others added later).
 create table if not exists pages (

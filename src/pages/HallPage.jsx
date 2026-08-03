@@ -82,8 +82,12 @@ export default function HallPage() {
   }, [hall]);
 
   const tabletsByChapter = useMemo(() => {
+    // Manual drag order (set from /admin/halls) wins; ties fall back to
+    // insertion order, so tablets from before the ordering feature existed
+    // still show up in a stable order rather than jumping around.
+    const sorted = [...tablets].sort((a, b) => (a.order || 0) - (b.order || 0));
     const m = {};
-    tablets.forEach(c => {
+    sorted.forEach(c => {
       const key = c.chapter_id || 'unfiled';
       (m[key] = m[key] || []).push(c);
     });
