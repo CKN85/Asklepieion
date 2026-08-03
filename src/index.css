@@ -157,6 +157,22 @@
     font-style: italic;
     margin-top: .6em;
   }
+
+  /* KaTeX math — inherits the prose color instead of KaTeX's default black,
+     and block equations get the same rhythm as the rest of prose-sanctum
+     plus horizontal scroll instead of overflow on a long line. */
+  .prose-sanctum .katex { color: inherit; font-size: 1.05em; }
+  .prose-sanctum .katex-display {
+    margin: 1.6em 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 2px;
+  }
+  .prose-sanctum .katex-error {
+    color: #F87171;
+    font-family: ui-monospace, 'IBM Plex Mono', monospace;
+    font-size: .87em;
+  }
 }
 
 /* ---------------------------------------------------------------------------

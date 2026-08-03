@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, BookOpen } from 'lucide-react';
-import { marked } from 'marked';
 import { base44 } from '@/api/client';
+import { renderTabletBody } from '@/lib/renderMarkdown';
 
 // Every plain Enter becomes a visible line break; a blank line still starts a
 // genuinely new paragraph. Any raw HTML already typed in a tablet passes
-// through unchanged — Markdown only acts on the parts written in Markdown.
-marked.setOptions({ breaks: true });
+// through unchanged, and $inline$ / $$block$$ math is rendered with KaTeX
+// before Markdown ever sees it — see src/lib/renderMarkdown.js.
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
 import ReadingProgress from '@/components/ReadingProgress';
@@ -134,7 +134,7 @@ export default function TabletPage() {
             className="prose-sanctum"
             dangerouslySetInnerHTML={{
               __html: tablet.body
-                ? marked.parse(tablet.body)
+                ? renderTabletBody(tablet.body)
                 : '<p style="color:#3A3530;font-style:italic">This tablet has no content yet.</p>',
             }}
           />

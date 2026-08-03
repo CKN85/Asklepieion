@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Save, Eye, X, Search } from 'lucide-react';
 import { base44 } from '@/api/client';
+import TabletBodyEditor from '@/components/TabletBodyEditor';
 
 function CrossRefPicker({ onAdd, excludeId }) {
   const [search, setSearch] = useState('');
@@ -278,12 +279,11 @@ export default function AdminTabletEditor() {
             />
           </div>
 
-          <textarea
+          <TabletBodyEditor
             value={form.body}
-            onChange={e => setForm(f => ({ ...f, body: e.target.value }))}
-            placeholder="Begin writing the tablet body here. Markdown supported — blank line for a new paragraph, ## for a heading, **bold**, *italic*, - for a list."
-            className="w-full bg-[#0E0C09] border border-[#2A2620] text-[#E2DED0] px-4 py-4 focus:outline-none focus:border-[#3F8A66] transition-colors placeholder:text-[#2A2620] resize-none"
-            style={{ fontFamily: 'Source Serif 4, Georgia, serif', fontSize: '1rem', lineHeight: '1.75', minHeight: '600px' }}
+            onChange={body => setForm(f => ({ ...f, body }))}
+            placeholder="Begin writing the tablet body here. Markdown supported — blank line for a new paragraph, ## for a heading, **bold**/Ctrl+B, *italic*/Ctrl+I, - for a list, $x^2$ or $$block$$ for math. Paste an image straight in."
+            accent="#3F8A66"
           />
         </div>
 
